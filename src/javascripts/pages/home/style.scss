@@ -1,0 +1,171 @@
+@import '../../../stylesheets/index.scss';
+
+#home {
+  position: relative;
+  display: flex;
+  flex-flow: row wrap;
+  height: 100vh;
+
+  .screensaver {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-right: 15px;
+    flex: 1;
+    background: rgb(60, 157, 155);
+    background: -moz-linear-gradient(0deg, rgba(60, 157, 155, 1) 0%, rgba(82, 222, 151, 1) 100%);
+    background: -webkit-linear-gradient(0deg, rgba(60, 157, 155, 1) 0%, rgba(82, 222, 151, 1) 100%);
+    background: linear-gradient(0deg, rgba(60, 157, 155, 1) 0%, rgba(82, 222, 151, 1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#3c9d9b", endColorstr="#52de97", GradientType=1);
+
+    &>div {
+      max-width: 520px;
+    }
+
+    h1 {
+      text-transform: uppercase;
+      color: $white;
+      display: inline-flex;
+      align-items: center;
+      width: 100%;
+      font-size: 56px;
+      line-height: 60px;
+      margin-bottom: 60px;
+      font-weight: 800;
+      font-family: $font;
+      position: relative;
+      left: -10px;
+
+      img {
+        margin-right: 10px;
+      }
+    }
+
+    .description {
+      color: $white;
+      display: block;
+      width: 100%;
+      font-size: 34px;
+      line-height: 48px;
+      font-weight: 300;
+      font-family: $font;
+      margin-bottom: 45px;
+    }
+
+    .services {
+      position: relative;
+
+      ul {
+        list-style: none;
+        margin: 0px;
+        padding: 0px;
+
+        li {
+          color: $white;
+          display: flex;
+          align-items: center;
+          margin-bottom: 15px;
+          font-size: 22px;
+          line-height: 26px;
+          font-weight: 300;
+
+          strong {
+            margin-right: 10px;
+            font-weight: 500;
+          }
+
+          .icon-con {
+            width: 84px;
+            height: 84px;
+            border-radius: 100px;
+            border: 2px solid $blue;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: $blue;
+            margin-right: 15px;
+
+            svg {
+              color: $white;
+              font-size: 54px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .login-form-section {
+    position: relative;
+    padding-left: 15px;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .form-container {
+      position: relative;
+      max-width: 430px;
+
+      h1 {
+        font-size: 44px;
+        line-height: 55px;
+        font-weight: 700;
+        margin-bottom: 60px;
+      }
+
+      .main-form {
+        .MuiButton-root {
+          margin-top: 30px;
+          font-size: 18px;
+          line-height: 23px;
+          padding-top: 20px;
+          padding-bottom: 20px;
+        }
+
+        .MuiTextField-root {
+          margin: 0px;
+          margin-bottom: 45px;
+
+          .MuiInputBase-root {
+            outline: none !important;
+
+            &:hover:before {
+              border-color: $green;
+            }
+          }
+
+          input {
+            font-size: 16px;
+            line-height: 20px;
+            color: $black;
+            font-weight: 300;
+
+            &:hover {
+              border-color: $green;
+            }
+          }
+
+          label {
+            font-size: 16px;
+            line-height: 20px;
+            color: $black;
+            font-weight: 300;
+            outline: none !important;
+
+            &.Mui-focused {
+              color: $blueGreen;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .copyright {
+    position: absolute;
+    right: 15px;
+    bottom: 15px;
+  }
+}
