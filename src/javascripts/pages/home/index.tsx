@@ -1,33 +1,35 @@
-import * as React from 'react';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import * as React from "react";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 
 // MUI
-import Button from '@material-ui/core/Button';
-import AccessibilityIcon from '@material-ui/icons/Accessibility';
-import TextField from '@material-ui/core/TextField';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import Button from "@material-ui/core/Button";
+import BarChartIcon from "@material-ui/icons/BarChart";
+import AccountBoxIcon from "@material-ui/icons/AccountBox";
+import AirlineSeatFlatAngledIcon from "@material-ui/icons/AirlineSeatFlatAngled";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import TextField from "@material-ui/core/TextField";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
 // images
-import Logo from '../../../assets/images/logo.svg';
+import Logo from "../../../assets/images/logo.svg";
 
 // styles
-import './style.scss';
+import "./style.scss";
 
 // variables
 const themeInput = createMuiTheme({
   palette: {
     primary: {
-      main: '#52de97',
-    },
-  },
+      main: "#52de97"
+    }
+  }
 });
-
 const themeButton = createMuiTheme({
   palette: {
     primary: {
-      main: '#394a6d',
-    },
-  },
+      main: "#394a6d"
+    }
+  }
 });
 
 class Home extends React.Component<{}, {}> {
@@ -39,30 +41,32 @@ class Home extends React.Component<{}, {}> {
             <h1>
               <img src={Logo} alt="jl-logo" /> Jozon - Lizarondo
             </h1>
-            <div className="description">Imaging and Diagnostic. Formerly Dr. Benedicto M. Joson Sr.</div>
+            <div className="description">
+              Imaging and Diagnostic. Formerly Dr. Benedicto M. Joson Sr.
+            </div>
             <div className="services">
               <ul>
                 <li>
                   <div className="icon-con">
-                    <AccessibilityIcon />
+                    <AccountBoxIcon />
                   </div>
                   <strong>X-Ray</strong> patients with any issues.
                 </li>
                 <li>
                   <div className="icon-con">
-                    <AccessibilityIcon />
+                    <AirlineSeatFlatAngledIcon />
                   </div>
                   <strong>Ultrasound</strong> mothers giving births.
                 </li>
                 <li>
                   <div className="icon-con">
-                    <AccessibilityIcon />
+                    <BarChartIcon />
                   </div>
-                  <strong>Laboratary</strong> examine and analyze body.
+                  <strong>Laboratory</strong> examine and analyze body.
                 </li>
                 <li>
                   <div className="icon-con">
-                    <AccessibilityIcon />
+                    <FavoriteIcon />
                   </div>
                   <strong>2D-Echo</strong> for heart health issues.
                 </li>
@@ -75,7 +79,13 @@ class Home extends React.Component<{}, {}> {
             <h1>Welcome to Jozon - Lizarondo App!</h1>
             <div className="main-form">
               <ThemeProvider theme={themeInput}>
-                <TextField fullWidth={true} id="username" label="Username" margin="normal" autoComplete="off" />
+                <TextField
+                  fullWidth={true}
+                  id="username"
+                  label="Username"
+                  margin="normal"
+                  autoComplete="off"
+                />
                 <TextField
                   fullWidth={true}
                   id="password"
@@ -86,14 +96,22 @@ class Home extends React.Component<{}, {}> {
                 />
               </ThemeProvider>
               <ThemeProvider theme={themeButton}>
-                <Button startIcon={<ExitToAppIcon />} size="large" variant="contained" color="primary" fullWidth={true}>
+                <Button
+                  startIcon={<ExitToAppIcon />}
+                  size="large"
+                  variant="contained"
+                  color="primary"
+                  fullWidth={true}
+                >
                   Log In
                 </Button>
               </ThemeProvider>
             </div>
           </div>
         </div>
-        <div className="copyright">&copy; Jozon - Lizarondo 2019. All rights reserved.</div>
+        <div className="copyright">
+          &copy; Jozon - Lizarondo 2019. All rights reserved.
+        </div>
       </div>
     );
   }
