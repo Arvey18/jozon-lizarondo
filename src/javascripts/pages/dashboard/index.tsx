@@ -1,9 +1,8 @@
-import React from 'react';
+import React, {ReactElement} from 'react';
 import clsx from 'clsx';
-import {Bar} from 'react-chartjs-2';
+import {Route} from 'react-router-dom';
 
 // MUI
-// import { useTheme } from "@material-ui/core/styles";
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -21,6 +20,7 @@ import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import AirlineSeatFlatAngledIcon from '@material-ui/icons/AirlineSeatFlatAngled';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import BarChartIcon from '@material-ui/icons/BarChart';
+import HomeIcon from '@material-ui/icons/Home';
 import NoteIcon from '@material-ui/icons/Note';
 import SettingsIcon from '@material-ui/icons/Settings';
 import SettingsInputComponentIcon from '@material-ui/icons/SettingsInputComponent';
@@ -28,13 +28,8 @@ import Avatar from '@material-ui/core/Avatar';
 import Grid from '@material-ui/core/Grid';
 import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
 import VideogameAssetIcon from '@material-ui/icons/VideogameAsset';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import {createMuiTheme, ThemeProvider} from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
-import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
 import {useStyles} from './style';
 
 // styles
@@ -44,52 +39,54 @@ import './style.scss';
 import AvatarImage from '../../../assets/images/avatar.jpg';
 import Logo from '../../../assets/images/logo.svg';
 
-// variables
-const themeSelect = createMuiTheme({
-  palette: {
-    primary: {
-      main: '#52de97',
-    },
-  },
-});
+// pages
+import DashboardDefault from '../dashboard-default';
+import DashboardPatients from '../patient-list';
+import DashboardXRay from '../patient-list-xray';
+import DashboardUltrasound from '../patient-list-ultrasound';
+import DashboardECG from '../patient-list-ecg';
+import DashboardLaboratory from '../patient-list-laboratory';
 
-const themeFloatingBtn = createMuiTheme({
-  palette: {
-    primary: {
-      main: '#394a6d',
-    },
-  },
-});
-
-export default function DashboardMiniDrawer() {
+export default function DashboardMiniDrawer(props: any): ReactElement {
   // variables
   const classes = useStyles();
-  // const theme = useTheme();
+  const location = props.history.location.pathname;
   const menus = [
     {
       text: 'Dashboard',
+      icon: <HomeIcon className={classes.icon} />,
+      route: '/dashboard',
+      active: location === '/dashboard' ? true : false,
+    },
+    {
+      text: 'Patients',
       icon: <PeopleIcon className={classes.icon} />,
-      active: true,
+      route: '/dashboard-patients',
+      active: location === '/dashboard-patients' ? true : false,
     },
     {
       text: 'X-Ray',
       icon: <AccountBoxIcon className={classes.icon} />,
-      active: false,
+      route: '/dashboard-xray',
+      active: location === '/dashboard-xray' ? true : false,
     },
     {
       text: 'Ultrasound',
       icon: <AirlineSeatFlatAngledIcon className={classes.icon} />,
-      active: false,
+      route: '/dashboard-ultrasound',
+      active: location === '/dashboard-ultrasound' ? true : false,
     },
     {
       text: 'ECG',
       icon: <FavoriteIcon className={classes.icon} />,
-      active: false,
+      route: '/dashboard-ecg',
+      active: location === '/dashboard-ecg' ? true : false,
     },
     {
       text: 'Laboratory',
       icon: <BarChartIcon className={classes.icon} />,
-      active: false,
+      route: '/dashboard-laboratory',
+      active: location === '/dashboard-laboratory' ? true : false,
     },
   ];
 
@@ -110,97 +107,16 @@ export default function DashboardMiniDrawer() {
       active: false,
     },
   ];
-  const options = {
-    legend: {
-      display: false,
-    },
-    maintainAspectRatio: false,
-    scales: {
-      yAxes: [
-        {
-          ticks: {
-            beginAtZero: true,
-            fontColor: '#222222',
-            fontFamily: 'Roboto',
-            fontSize: 14,
-          },
-        },
-      ],
-      xAxes: [
-        {
-          ticks: {
-            fontColor: '#222222',
-            fontFamily: 'Roboto',
-            fontSize: 14,
-          },
-        },
-      ],
-    },
-  };
-  const data = {
-    labels: [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sept',
-      'Oct',
-      'Nov',
-      'Dec',
-    ],
-    datasets: [
-      {
-        label: 'Monthly Record',
-        // borderColor: [
-        //   'rgba(0, 182, 122, 0.35)',
-        //   'rgba(255, 66, 15, 0.35)',
-        //   'rgba(122, 0, 255, 0.35)',
-        //   'rgba(0, 187, 221, 0.35)',
-        //   'rgba(122, 0, 255, 0.35)',
-        //   'rgba(255, 66, 15, 0.35)',
-        //   'rgba(0, 182, 122, 0.35)',
-        //   'rgba(0, 187, 221, 0.35)',
-        //   'rgba(255, 66, 15, 0.35)',
-        //   'rgba(0, 182, 122, 0.35)',
-        //   'rgba(0, 187, 221, 0.35)',
-        //   'rgba(122, 0, 255, 0.35)',
-        // ],
-        backgroundColor: [
-          '#00b67a',
-          '#ff420f',
-          '#7a00ff',
-          '#00bbdd',
-          '#7a00ff',
-          '#ff420f',
-          '#00b67a',
-          '#00bbdd',
-          '#ff420f',
-          '#00b67a',
-          '#00bbdd',
-          '#7a00ff',
-        ],
-        borderWidth: 1,
-        // hoverBackgroundColor: 'rgba(255,99,132,0.4)',
-        // hoverBorderColor: 'rgba(255,99,132,1)',
-        data: [65, 59, 80, 81, 56, 55, 71, 42, 150, 134, 95, 89],
-      },
-    ],
-  };
 
   // state
   const [open, setOpen] = React.useState(false);
-  const [year, setYear] = React.useState(2019);
 
   const handleDrawerOpen = () => {
     setOpen(!open);
   };
 
-  const handleYearChange = (event: React.ChangeEvent<{value: unknown}>) => {
-    setYear(event.target.value as number);
+  const handleChangeRoute = (route: string) => {
+    props.history.push(route);
   };
 
   return (
@@ -226,19 +142,21 @@ export default function DashboardMiniDrawer() {
             Dashboard
           </Typography>
           <div className={classes.flexGrow}>
-            <div className={clsx(classes.search)}>
-              <div className={classes.searchIcon}>
-                <SearchIcon />
+            {location === '/dashboard' ? (
+              <div className={clsx(classes.search)}>
+                <div className={classes.searchIcon}>
+                  <SearchIcon />
+                </div>
+                <InputBase
+                  placeholder="Search Patient…"
+                  classes={{
+                    root: classes.inputRoot,
+                    input: classes.inputInput,
+                  }}
+                  inputProps={{'aria-label': 'search'}}
+                />
               </div>
-              <InputBase
-                placeholder="Search…"
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
-                inputProps={{'aria-label': 'search'}}
-              />
-            </div>
+            ) : null}
           </div>
           <Grid className={classes.avatarCon}>
             <Avatar
@@ -304,6 +222,7 @@ export default function DashboardMiniDrawer() {
               })}
               button
               key={index}
+              onClick={() => handleChangeRoute(val.route)}
             >
               <ListItemIcon
                 className={clsx(classes.iconMenu, {
@@ -339,111 +258,28 @@ export default function DashboardMiniDrawer() {
         </List>
       </Drawer>
       <main className={classes.content}>
-        <Grid container alignItems="center">
-          <Typography
-            className={clsx(classes.greetings, classes.flexGrow)}
-            variant="h2"
-            noWrap
-          >
-            Greetings Arvey!
-          </Typography>
-          <ThemeProvider theme={themeFloatingBtn}>
-            <Fab
-              color="primary"
-              aria-label="Add Patient"
-              className={classes.fab}
-            >
-              <AddIcon className={classes.fabIcon} />
-            </Fab>
-          </ThemeProvider>
-        </Grid>
-        <Grid container className={classes.grid}>
-          <Grid className={clsx(classes.gridItem, 'status-box')} sm={3}>
-            <div>
-              <div className="icon-con">
-                <AccountBoxIcon />
-              </div>
-              <h3>X-Ray</h3>
-              <div className="count-patient">482</div>
-              <Divider />
-              <div className="percent-count-patient">
-                25% of total patient record this year.
-              </div>
-            </div>
-          </Grid>
-          <Grid className={clsx(classes.gridItem, 'status-box')} sm={3}>
-            <div>
-              <div className="icon-con orange-con">
-                <AirlineSeatFlatAngledIcon />
-              </div>
-              <h3>Ultrasound</h3>
-              <div className="count-patient">254</div>
-              <Divider />
-              <div className="percent-count-patient">
-                45% of total patient record this year.
-              </div>
-            </div>
-          </Grid>
-          <Grid className={clsx(classes.gridItem, 'status-box')} sm={3}>
-            <div>
-              <div className="icon-con purple-con">
-                <FavoriteIcon />
-              </div>
-              <h3>ECG</h3>
-              <div className="count-patient">123</div>
-              <Divider />
-              <div className="percent-count-patient">
-                15% of total patient record this year.
-              </div>
-            </div>
-          </Grid>
-          <Grid className={clsx(classes.gridItem, 'status-box')} sm={3}>
-            <div>
-              <div className="icon-con blue-con">
-                <BarChartIcon />
-              </div>
-              <h3>Laboratory</h3>
-              <div className="count-patient">198</div>
-              <Divider />
-              <div className="percent-count-patient">
-                30% of total patient record this year.
-              </div>
-            </div>
-          </Grid>
-        </Grid>
-        <Grid container className="graph-dashboard">
-          <div>
-            <Grid className="graph-header" container alignItems="center">
-              <h1 className={classes.flexGrow}>
-                Patients Monthly Record - 2019
-              </h1>
-              <ThemeProvider theme={themeSelect}>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={year}
-                  onChange={handleYearChange}
-                  className="year-select"
-                >
-                  <MenuItem className="year-select-menu" value={2019}>
-                    2019
-                  </MenuItem>
-                  <MenuItem className="year-select-menu" value={2018}>
-                    2018
-                  </MenuItem>
-                  <MenuItem className="year-select-menu" value={2017}>
-                    2017
-                  </MenuItem>
-                </Select>
-              </ThemeProvider>
-            </Grid>
-            <div className="graph-con">
-              <Bar data={data} width={100} height={20} options={options} />
-            </div>
-          </div>
-        </Grid>
+        <div>
+          <Route exact path="/dashboard" component={DashboardDefault} />
+          <Route
+            exact
+            path="/dashboard-patients"
+            component={DashboardPatients}
+          />
+          <Route exact path="/dashboard-xray" component={DashboardXRay} />
+          <Route
+            exact
+            path="/dashboard-ultrasound"
+            component={DashboardUltrasound}
+          />
+          <Route exact path="/dashboard-ECG" component={DashboardECG} />
+          <Route
+            exact
+            path="/dashboard-laboratory"
+            component={DashboardLaboratory}
+          />
+        </div>
         <Grid container className="copyright">
-          &copy; Jozon - Lizarondo 2019. All rights reserved.
+          <div>&copy; Jozon - Lizarondo 2019. All rights reserved.</div>
         </Grid>
       </main>
     </div>
