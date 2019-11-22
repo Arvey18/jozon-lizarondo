@@ -153,7 +153,7 @@ export default function DashboardMiniDrawer(props: any): ReactElement {
                     root: classes.inputRoot,
                     input: classes.inputInput,
                   }}
-                  inputProps={{'aria-label': 'search'}}
+                  inputProps={{'aria-label': 'search patient'}}
                 />
               </div>
             ) : null}
