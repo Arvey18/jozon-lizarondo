@@ -1,5 +1,7 @@
 import React, {ReactElement} from 'react';
 import {createMuiTheme, ThemeProvider} from '@material-ui/core/styles';
+import {connect} from 'react-redux';
+import {LOGIN} from '../../actions/auth';
 
 // MUI
 import Button from '@material-ui/core/Button';
@@ -15,6 +17,7 @@ import Logo from '../../../assets/images/logo.svg';
 
 // styles
 import './style.scss';
+import {string} from 'prop-types';
 
 // variables
 const themeInput = createMuiTheme({
@@ -32,9 +35,25 @@ const themeButton = createMuiTheme({
   },
 });
 
-export default function Home(props: any): ReactElement {
+const Home = (props: any): ReactElement => {
+  const [username, setUsername] = React.useState('');
+  const [password, setPassword] = React.useState('');
+
+  const handleUsernameChange = (event: React.ChangeEvent<{value: unknown}>) => {
+    setUsername(event.target.value as string);
+  };
+
+  const handlePasswordChange = (event: React.ChangeEvent<{value: unknown}>) => {
+    setPassword(event.target.value as string);
+  };
+
   const handleLogin = () => {
-    props.history.push('/dashboard');
+    if (username !== '' && password !== '') {
+      props.login(username, password).then((result: any) => {
+        console.log(result);
+      });
+      // props.history.push('/dashboard');
+    }
   };
 
   return (
@@ -88,6 +107,7 @@ export default function Home(props: any): ReactElement {
                 label="Username"
                 margin="normal"
                 autoComplete="off"
+                onChange={handleUsernameChange}
               />
               <TextField
                 fullWidth={true}
@@ -96,6 +116,7 @@ export default function Home(props: any): ReactElement {
                 type="password"
                 autoComplete="off"
                 margin="normal"
+                onChange={handlePasswordChange}
               />
             </ThemeProvider>
             <ThemeProvider theme={themeButton}>
@@ -118,4 +139,13 @@ export default function Home(props: any): ReactElement {
       </div>
     </div>
   );
-}
+};
+
+const stateToProps = ({}) => ({});
+
+const actionsToProps = (dispatch: any) => ({
+  login: (username: string, password: string) =>
+    dispatch(LOGIN(username, password)),
+});
+
+export default connect(stateToProps, actionsToProps)(Home);
