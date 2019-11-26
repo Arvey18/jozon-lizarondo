@@ -1,0 +1,145 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "plugins": [
+    "react",
+    "@typescript-eslint"
+  ],
+  "globals": {
+    "graphql": false
+  },
+  "settings": {
+    "react": {
+      "pragma": "React",
+      "version": "detect"
+    }
+  },
+  "rules": {
+    "quotes": "off",
+    "@typescript-eslint/interface-name-prefix": ["error", {
+      "prefixWithI": "always",
+      "allowUnderscorePrefix": false
+    }],
+    "@typescript-eslint/explicit-function-return-type": ["error", {
+      "allowExpressions": true
+    }],
+    "@typescript-eslint/explicit-member-accessibility": ["error", {
+      "accessibility": "explicit",
+      "overrides": {
+        "constructors": "no-public"
+      }
+    }],
+
+    // Allow only single quotes
+    "@typescript-eslint/quotes": ["error", "single"],
+
+    // Force semicolons
+    "@typescript-eslint/semi": "error",
+
+    // Do not allow unused variables
+    "@typescript-eslint/no-unused-vars": "error",
+
+    // Add space between object's curly brackets (a = { x: 1 } -> correct | a = {x:1} -> error)
+    "object-curly-spacing": ["error", "always"],
+
+    // Force spaces between array's brackets (a = [ 1 ] -> correct | a = [1] -> error)
+    "array-bracket-spacing": ["error", "always"],
+
+    // Prevent multiple empty lines in row
+    "no-multiple-empty-lines": ["error", {
+      "max": 1,
+      "maxEOF": 1
+    }],
+
+    // Force "/>" closing bracket if component does not have children prop
+    "react/self-closing-comp": ["error", {
+      "component": true,
+      "html": true
+    }],
+
+    "react/jsx-curly-newline": ["error", {
+      "multiline": "require",
+      "singleline": "forbid"
+    }],
+
+    // Component closing brackets should be aligned
+    "react/jsx-closing-bracket-location": ["error", "line-aligned"],
+
+    // Prevent multiple props per line in case component already multi-lined
+    "react/jsx-max-props-per-line": ["error", { "when": "multiline" }],
+
+    // Set params indent equal 2 spaces
+    "react/jsx-indent": ["error", 2, {"indentLogicalExpressions": true, "checkAttributes": true}],
+
+    // Prevent spaces between params curly brackets (prop={ 1 } -> error | prop={1} -> correct)
+    "react/jsx-curly-spacing": ["error", {"when": "never"}],
+
+    // Force space after comma (a, b -> correct | a,b -> error)
+    "comma-spacing": ["error", { "before": false, "after": true }],
+
+    // Force paces after keywords (if (...) -> correct | if(...) -> error
+    "keyword-spacing": ["error", { "before": true, "after": true }],
+
+    // Prevent useless concal like "a" + "b" which can be replaced by "ab"
+    "no-useless-concat": "error",
+
+    // Prefer templates over string concatinations
+    "prefer-template": "error",
+
+    // Force maximum 120 long lines
+    "max-len": ["error", { "code": 120 }],
+
+    // Force ===
+    "eqeqeq": ["error", "always"],
+
+    // Prefent functions params reassignming ((a) => { a = 10; } -> error)
+    "no-param-reassign": "error",
+
+    // Add space before coment lines
+    "spaced-comment": ["error", "always"],
+
+    // No spaces at the end of lines
+    "no-trailing-spaces": "error",
+
+    // Forces space after arrow function's "=>"
+    "arrow-spacing": ["error", { "before": true, "after": true }],
+
+    // Force shorthand syntax for objects (let a = { x } -> correct | let a = { x: x } -> error)
+    "object-shorthand": "error",
+
+    // Force spaces with infix operators (let a = 10 -> correct | let a=10 -> error)
+    "space-infix-ops": "error",
+
+    // Do not allow variable shadowing
+    "no-shadow": "error",
+
+    // Do not allow trailing commans
+    "comma-dangle": ["error", "never"],
+
+    // Require "default" in switch statement
+    "default-case": "error",
+
+    // Require if statement in for-in loop to test inherited properties
+    "guard-for-in": "error",
+
+    // Prevent multi spaces like a   = 10
+    "no-multi-spaces": "error",
+
+    // Prevent comparison like (x === x)
+    "no-self-compare": "error",
+
+    // Prefer const if variable will not be reassigned
+    "prefer-const": "error",
+
+    // Force curly braces even for one statement blocks like if, for, while
+    "curly": "error"
+  },
+  "parser": "@typescript-eslint/parser"
+}

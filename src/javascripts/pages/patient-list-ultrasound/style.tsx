@@ -1,50 +1,52 @@
-import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     rootTable: {
       width: '100%',
       marginTop: 15,
-      height: 'calc(100vh - 335px)',
+      height: 'calc(100vh - 335px)'
     },
     tableWrapper: {
       maxHeight: 540,
       overflow: 'auto',
       msOverflowStyle: 'none',
       scrollbarWidth: 'none',
+
       '&::-webkit-scrollbar': {
-        display: 'none',
-      },
+        display: 'none'
+      }
     },
     greetings: {
       color: '#222222',
-      lineHeight: 1.5,
+      lineHeight: 1.5
     },
     grid: {
       marginTop: 60,
       marginLeft: -15,
-      marginRight: -15,
+      marginRight: -15
     },
     gridItem: {
       paddingLeft: 15,
-      paddingRight: 15,
+      paddingRight: 15
     },
     fab: {
-      marginRight: 15,
+      marginRight: 15
     },
     fabIcon: {
       fontSize: 30,
-      color: '#FFFFFF',
+      color: '#FFFFFF'
     },
     flexGrow: {
-      flexGrow: 1,
+      flexGrow: 1
     },
     search: {
       position: 'relative',
       borderRadius: 100,
       backgroundColor: 'rgba(255, 255, 255, 0.7)',
+
       '&:hover': {
-        backgroundColor: '#FFFFFF',
+        backgroundColor: '#FFFFFF'
       },
       // maxWidth: 100,
       marginRight: theme.spacing(2),
@@ -54,11 +56,11 @@ export const useStyles = makeStyles((theme: Theme) =>
       width: '100%',
       [theme.breakpoints.up('sm')]: {
         // marginLeft: theme.spacing(3),
-        width: 'auto',
-      },
+        width: 'auto'
+      }
     },
     filterCon: {
-      marginTop: 30,
+      marginTop: 30
     },
     searchIcon: {
       width: 42,
@@ -68,14 +70,14 @@ export const useStyles = makeStyles((theme: Theme) =>
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      color: '#222222',
+      color: '#222222'
     },
     inputRoot: {
       color: '#222222',
       fontSize: 14,
       fontWeight: 300,
       borderRadius: 100,
-      width: '100%',
+      width: '100%'
     },
     inputInput: {
       padding: '8px 8px 8px 42px',
@@ -83,8 +85,8 @@ export const useStyles = makeStyles((theme: Theme) =>
       width: '100%',
       borderRadius: 100,
       [theme.breakpoints.up('md')]: {
-        width: '100%',
-      },
-    },
+        width: '100%'
+      }
+    }
   })
 );
