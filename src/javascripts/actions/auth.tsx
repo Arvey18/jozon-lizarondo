@@ -9,7 +9,6 @@ export const LOGIN = (username: string, password: string) => (
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
     },
     body: JSON.stringify({username: username, password: password}),
   })
