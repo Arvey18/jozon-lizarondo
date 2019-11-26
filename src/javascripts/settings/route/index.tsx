@@ -1,12 +1,12 @@
 import * as React from 'react';
-import {Route, Switch} from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 // pages
 import Home from '../../pages/home';
 import Dashboard from '../../pages/dashboard';
 import NoMatch from '../../pages/nomatch';
 
-export default function Routes() {
+export default function Routes(): React.ReactElement {
   return (
     <Switch>
       <Route exact path="/" component={Home} />

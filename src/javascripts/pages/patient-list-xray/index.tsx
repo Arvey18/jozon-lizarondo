@@ -1,4 +1,4 @@
-import React, {ReactElement} from 'react';
+import React, { ReactElement } from 'react';
 import clsx from 'clsx';
 
 // MUI
@@ -6,12 +6,12 @@ import Typography from '@material-ui/core/Typography';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import Grid from '@material-ui/core/Grid';
-import {createMuiTheme, ThemeProvider} from '@material-ui/core/styles';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import {useStyles} from './style';
+import { useStyles } from './style';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -21,7 +21,7 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 
 // variables
-interface Column {
+interface IColumn {
   id: 'name' | 'code' | 'population' | 'size' | 'density';
   label: string;
   minWidth?: number;
@@ -29,33 +29,33 @@ interface Column {
   format?: (value: number) => string;
 }
 
-const columns: Column[] = [
-  {id: 'name', label: 'Name', minWidth: 170},
-  {id: 'code', label: 'ISO\u00a0Code', minWidth: 100},
+const columns: IColumn[] = [
+  { id: 'name', label: 'Name', minWidth: 170 },
+  { id: 'code', label: 'ISO\u00a0Code', minWidth: 100 },
   {
     id: 'population',
     label: 'Population',
     minWidth: 170,
     align: 'right',
-    format: (value: number) => value.toLocaleString(),
+    format: (value: number) => value.toLocaleString()
   },
   {
     id: 'size',
     label: 'Size\u00a0(km\u00b2)',
     minWidth: 170,
     align: 'right',
-    format: (value: number) => value.toLocaleString(),
+    format: (value: number) => value.toLocaleString()
   },
   {
     id: 'density',
     label: 'Density',
     minWidth: 170,
     align: 'right',
-    format: (value: number) => value.toFixed(2),
-  },
+    format: (value: number) => value.toFixed(2)
+  }
 ];
 
-interface Data {
+interface IData {
   name: string;
   code: string;
   population: number;
@@ -68,9 +68,9 @@ function createData(
   code: string,
   population: number,
   size: number
-): Data {
+): IData {
   const density = population / size;
-  return {name, code, population, size, density};
+  return { name, code, population, size, density };
 }
 
 const rows = [
@@ -193,41 +193,43 @@ const rows = [
   createData('United Kingdom', 'GB', 67545757, 242495),
   createData('Russia', 'RU', 146793744, 17098246),
   createData('Nigeria', 'NG', 200962417, 923768),
-  createData('Brazil', 'BR', 210147125, 8515767),
+  createData('Brazil', 'BR', 210147125, 8515767)
 ];
 
 const themeFloatingBtn = createMuiTheme({
   palette: {
     primary: {
-      main: '#394a6d',
-    },
-  },
+      main: '#394a6d'
+    }
+  }
 });
 
 const themeSelect = createMuiTheme({
   palette: {
     primary: {
-      main: '#52de97',
-    },
-  },
+      main: '#52de97'
+    }
+  }
 });
 
-export default function DashboardPatientsXRay(props: any): ReactElement {
+export default function DashboardPatientsXRay(): ReactElement {
   // variables
   const classes = useStyles();
 
-  const [year, setYear] = React.useState(2019);
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(20);
+  const [ year, setYear ] = React.useState(2019);
+  const [ page, setPage ] = React.useState(0);
+  const [ rowsPerPage, setRowsPerPage ] = React.useState(20);
 
-  const handleYearChange = (event: React.ChangeEvent<{value: unknown}>) => {
+  const handleYearChange = (event: React.ChangeEvent<{value: unknown}>): void => {
     setYear(event.target.value as number);
   };
 
-  const handleChangePage = (event: unknown, newPage: number) => {
+  const handleChangePage = (_event: unknown, newPage: number): void => {
     setPage(newPage);
   };
 
+  // TODO: implement handleChangeRowsPerPage
+  // eslint-disable-next-line
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -260,11 +262,8 @@ export default function DashboardPatientsXRay(props: any): ReactElement {
               </div>
               <InputBase
                 placeholder="Search Patient Name…"
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
-                inputProps={{'aria-label': 'search patient name'}}
+                classes={{ root: classes.inputRoot, input: classes.inputInput }}
+                inputProps={{ 'aria-label': 'search patient name' }}
               />
             </div>
           </div>
@@ -296,36 +295,44 @@ export default function DashboardPatientsXRay(props: any): ReactElement {
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
-                {columns.map((column, key) => (
-                  <TableCell
-                    key={key}
-                    align={column.align}
-                    style={{minWidth: column.minWidth}}
-                  >
-                    {column.label}
-                  </TableCell>
-                ))}
+                {
+                  columns.map((column, key) => (
+                    <TableCell
+                      key={key}
+                      align={column.align}
+                      style={{ minWidth: column.minWidth }}
+                    >
+                      {column.label}
+                    </TableCell>
+                  ))
+                }
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, key) => {
-                  return (
-                    <TableRow hover role="checkbox" tabIndex={-1} key={key}>
-                      {columns.map(column => {
-                        const value = row[column.id];
-                        return (
-                          <TableCell key={column.id} align={column.align}>
-                            {column.format && typeof value === 'number'
-                              ? column.format(value)
-                              : value}
-                          </TableCell>
-                        );
-                      })}
-                    </TableRow>
-                  );
-                })}
+              {
+                rows
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row, key) => {
+                    return (
+                      <TableRow hover role="checkbox" tabIndex={-1} key={key}>
+                        {
+                          columns.map(column => {
+                            const value = row[column.id];
+                            return (
+                              <TableCell key={column.id} align={column.align}>
+                                {
+                                  column.format && typeof value === 'number'
+                                    ? column.format(value)
+                                    : value
+                                }
+                              </TableCell>
+                            );
+                          })
+                        }
+                      </TableRow>
+                    );
+                  })
+                }
             </TableBody>
           </Table>
         </div>
@@ -336,12 +343,8 @@ export default function DashboardPatientsXRay(props: any): ReactElement {
           count={rows.length}
           rowsPerPage={rowsPerPage}
           page={page}
-          backIconButtonProps={{
-            'aria-label': 'previous page',
-          }}
-          nextIconButtonProps={{
-            'aria-label': 'next page',
-          }}
+          backIconButtonProps={{ 'aria-label': 'previous page' }}
+          nextIconButtonProps={{ 'aria-label': 'next page' }}
           onChangePage={handleChangePage}
           // onChangeRowsPerPage={handleChangeRowsPerPage}
         />

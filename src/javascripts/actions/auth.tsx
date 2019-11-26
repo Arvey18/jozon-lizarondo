@@ -1,16 +1,13 @@
-import {API} from '../constant';
+import { API } from '../constant';
 
-export const LOGIN = (username: string, password: string) => (
-  dispatch: any
-) => {
+export const LOGIN = (username: string, password: string) => () => {
   console.log('login');
-  const url = API + 'api/token/';
+  const url = `${API}/api/token/`;
+  console.log(url);
   return fetch(url, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({username: username, password: password}),
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username, password })
   })
     .then(response => response.json())
     .then(data => {
