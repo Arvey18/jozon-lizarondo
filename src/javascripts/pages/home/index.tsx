@@ -2,6 +2,8 @@ import React, {ReactElement} from 'react';
 import {createMuiTheme, ThemeProvider} from '@material-ui/core/styles';
 import {connect} from 'react-redux';
 import {LOGIN} from '../../actions/auth';
+import clsx from 'clsx';
+import {useStyles} from './style';
 
 // MUI
 import Button from '@material-ui/core/Button';
@@ -11,13 +13,17 @@ import AirlineSeatFlatAngledIcon from '@material-ui/icons/AirlineSeatFlatAngled'
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import TextField from '@material-ui/core/TextField';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import Snackbar from '@material-ui/core/Snackbar';
+import SnackbarContent from '@material-ui/core/SnackbarContent';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+import ErrorIcon from '@material-ui/icons/Error';
 
 // images
 import Logo from '../../../assets/images/logo.svg';
 
 // styles
 import './style.scss';
-import {string} from 'prop-types';
 
 // variables
 const themeInput = createMuiTheme({
@@ -36,9 +42,40 @@ const themeButton = createMuiTheme({
 });
 
 const Home = (props: any): ReactElement => {
+  // variables
+  const classes = useStyles();
+
+  // states
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const [errormessage, setErrorMessage] = React.useState('');
+  const [showerrormessage, setShowErrorMessage] = React.useState(false);
+  const [disablebutton, setDisableButton] = React.useState(true);
 
+  // use effects
+  React.useEffect(() => {
+    const login = localStorage.getItem('login');
+    const token = localStorage.getItem('token');
+    if (login === 'true' && token !== '') {
+      props.history.push('/dashboard');
+    } else {
+      localStorage.setItem('login', 'false');
+      localStorage.setItem('token', '');
+    }
+  });
+
+  React.useEffect(() => {
+    const handleCheckInput = () => {
+      if (username !== '' && password !== '') {
+        setDisableButton(false);
+      } else {
+        setDisableButton(true);
+      }
+    };
+    handleCheckInput();
+  }, [username, password]);
+
+  // custom functions
   const handleUsernameChange = (event: React.ChangeEvent<{value: unknown}>) => {
     setUsername(event.target.value as string);
   };
@@ -50,14 +87,57 @@ const Home = (props: any): ReactElement => {
   const handleLogin = () => {
     if (username !== '' && password !== '') {
       props.login(username, password).then((result: any) => {
-        console.log(result);
+        if (result.detail === undefined) {
+          props.history.push('/dashboard');
+          localStorage.setItem('login', 'true');
+          localStorage.setItem('token', result.access);
+        } else {
+          setErrorMessage('You have entered incorrect Username or Password.');
+          setShowErrorMessage(true);
+        }
       });
-      // props.history.push('/dashboard');
+    } else {
+      setErrorMessage('Please enter Username and Password.');
+      setShowErrorMessage(true);
     }
+  };
+
+  const handleCloseSnackBar = () => {
+    setShowErrorMessage(!showerrormessage);
   };
 
   return (
     <div id="home">
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right',
+        }}
+        open={showerrormessage}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackBar}
+      >
+        <SnackbarContent
+          className={clsx(classes.error, classes.margin)}
+          aria-describedby="form-message"
+          message={
+            <span id="form-message" className={classes.message}>
+              <ErrorIcon className={clsx(classes.icon, classes.iconVariant)} />
+              {errormessage}
+            </span>
+          }
+          action={[
+            <IconButton
+              key="close"
+              aria-label="close"
+              color="inherit"
+              onClick={handleCloseSnackBar}
+            >
+              <CloseIcon className={classes.icon} />
+            </IconButton>,
+          ]}
+        />
+      </Snackbar>
       <div className="screensaver">
         <div>
           <h1>
@@ -108,6 +188,8 @@ const Home = (props: any): ReactElement => {
                 margin="normal"
                 autoComplete="off"
                 onChange={handleUsernameChange}
+                value={username}
+                error={showerrormessage}
               />
               <TextField
                 fullWidth={true}
@@ -117,6 +199,8 @@ const Home = (props: any): ReactElement => {
                 autoComplete="off"
                 margin="normal"
                 onChange={handlePasswordChange}
+                value={password}
+                error={showerrormessage}
               />
             </ThemeProvider>
             <ThemeProvider theme={themeButton}>
@@ -127,6 +211,7 @@ const Home = (props: any): ReactElement => {
                 color="primary"
                 fullWidth={true}
                 onClick={() => handleLogin()}
+                disabled={disablebutton}
               >
                 Log In
               </Button>
@@ -141,7 +226,7 @@ const Home = (props: any): ReactElement => {
   );
 };
 
-const stateToProps = ({}) => ({});
+const stateToProps = () => ({});
 
 const actionsToProps = (dispatch: any) => ({
   login: (username: string, password: string) =>

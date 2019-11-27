@@ -218,7 +218,6 @@ export default function DashboardPatients(props: any): ReactElement {
 
   const [year, setYear] = React.useState(2019);
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(20);
 
   const handleYearChange = (event: React.ChangeEvent<{value: unknown}>) => {
     setYear(event.target.value as number);
@@ -226,13 +225,6 @@ export default function DashboardPatients(props: any): ReactElement {
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
   };
 
   return (
@@ -308,24 +300,22 @@ export default function DashboardPatients(props: any): ReactElement {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, key) => {
-                  return (
-                    <TableRow hover role="checkbox" tabIndex={-1} key={key}>
-                      {columns.map(column => {
-                        const value = row[column.id];
-                        return (
-                          <TableCell key={column.id} align={column.align}>
-                            {column.format && typeof value === 'number'
-                              ? column.format(value)
-                              : value}
-                          </TableCell>
-                        );
-                      })}
-                    </TableRow>
-                  );
-                })}
+              {rows.slice(page * 20, page * 20 + 20).map((row, key) => {
+                return (
+                  <TableRow hover role="checkbox" tabIndex={-1} key={key}>
+                    {columns.map(column => {
+                      const value = row[column.id];
+                      return (
+                        <TableCell key={column.id} align={column.align}>
+                          {column.format && typeof value === 'number'
+                            ? column.format(value)
+                            : value}
+                        </TableCell>
+                      );
+                    })}
+                  </TableRow>
+                );
+              })}
             </TableBody>
           </Table>
         </div>
@@ -334,7 +324,7 @@ export default function DashboardPatients(props: any): ReactElement {
           labelRowsPerPage=""
           component="div"
           count={rows.length}
-          rowsPerPage={rowsPerPage}
+          rowsPerPage={20}
           page={page}
           backIconButtonProps={{
             'aria-label': 'previous page',
@@ -343,7 +333,6 @@ export default function DashboardPatients(props: any): ReactElement {
             'aria-label': 'next page',
           }}
           onChangePage={handleChangePage}
-          // onChangeRowsPerPage={handleChangeRowsPerPage}
         />
       </Paper>
     </div>

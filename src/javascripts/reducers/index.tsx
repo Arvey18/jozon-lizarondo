@@ -1,5 +1,9 @@
 import {combineReducers} from 'redux';
 
-const rootReducer = combineReducers({});
+import apiCallProgress from './api-call-progress';
+
+const rootReducer = combineReducers({
+  apiCallProgress,
+});
 
 export default rootReducer;

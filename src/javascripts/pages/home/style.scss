@@ -7,6 +7,12 @@
   height: 100%;
   min-height: 100vh;
 
+  .MuiSnackbar-anchorOriginBottomRight {
+    left: auto;
+    right: 15px !important;
+    bottom: 45px !important;
+  }
+
   .screensaver {
     position: relative;
     display: flex;
@@ -158,6 +164,10 @@
             &.Mui-focused {
               color: $blueGreen;
             }
+
+            &.Mui-error {
+              color: #f44336;
+            }
           }
         }
       }
@@ -168,5 +178,10 @@
     position: absolute;
     right: 15px;
     bottom: 15px;
+  }
+
+  .MuiButton-contained.Mui-disabled {
+    background-color: rgba(57, 74, 109, 0.7);
+    color: white;
   }
 }

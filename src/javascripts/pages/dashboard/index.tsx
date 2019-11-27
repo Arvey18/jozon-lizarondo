@@ -1,6 +1,7 @@
 import React, {ReactElement} from 'react';
 import clsx from 'clsx';
 import {Route} from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
 
 // MUI
 import Drawer from '@material-ui/core/Drawer';
@@ -51,6 +52,7 @@ export default function DashboardMiniDrawer(props: any): ReactElement {
   // variables
   const classes = useStyles();
   const location = props.history.location.pathname;
+  const login = localStorage.getItem('login');
   const menus = [
     {
       text: 'Dashboard',
@@ -111,8 +113,15 @@ export default function DashboardMiniDrawer(props: any): ReactElement {
   // state
   const [open, setOpen] = React.useState(false);
 
+  // custom functions
   const handleDrawerOpen = () => {
     setOpen(!open);
+  };
+
+  const handleLogout = () => {
+    localStorage.setItem('login', 'false');
+    localStorage.setItem('token', '');
+    props.history.push('/');
   };
 
   const handleChangeRoute = (route: string) => {
@@ -181,7 +190,11 @@ export default function DashboardMiniDrawer(props: any): ReactElement {
             >
               <SettingsIcon className={classes.white} />
             </IconButton>
-            <IconButton aria-label="log out" size="small">
+            <IconButton
+              onClick={handleLogout}
+              aria-label="log out"
+              size="small"
+            >
               <MeetingRoomIcon className={classes.white} />
             </IconButton>
           </Grid>
@@ -202,8 +215,6 @@ export default function DashboardMiniDrawer(props: any): ReactElement {
         open={open}
       >
         <div className={classes.toolbar}>
-          {/* <div className={classes.menuTitle}>JOZON - LIZARONDO</div>
-          <div className={classes.menuSubTitle}>Cabanatuan Branch</div> */}
           <img
             src={Logo}
             alt="logo"
@@ -213,7 +224,6 @@ export default function DashboardMiniDrawer(props: any): ReactElement {
             })}
           />
         </div>
-        {/* <Divider /> */}
         <List className={classes.menuConList}>
           {menus.map((val, index) => (
             <ListItem
@@ -259,6 +269,7 @@ export default function DashboardMiniDrawer(props: any): ReactElement {
       </Drawer>
       <main className={classes.content}>
         <div>
+          {login === 'false' ? <Redirect to="/" /> : null}
           <Route exact path="/dashboard" component={DashboardDefault} />
           <Route
             exact
