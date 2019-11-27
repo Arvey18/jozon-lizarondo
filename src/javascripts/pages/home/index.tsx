@@ -88,9 +88,11 @@ const Home = (props: any): ReactElement => {
     if (username !== '' && password !== '') {
       props.login(username, password).then((result: any) => {
         if (result.detail === undefined) {
-          props.history.push('/dashboard');
           localStorage.setItem('login', 'true');
           localStorage.setItem('token', result.access);
+          setTimeout(() => {
+            props.history.push('/dashboard');
+          }, 200);
         } else {
           setErrorMessage('You have entered incorrect Username or Password.');
           setShowErrorMessage(true);
