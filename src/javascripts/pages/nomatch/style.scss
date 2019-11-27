@@ -1,1 +1,25 @@
 @import '../../../stylesheets/variables.scss';
+
+#nomatch {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  height: 100%;
+  background: rgb(60, 157, 155);
+  background: -moz-linear-gradient(0deg, rgba(60, 157, 155, 1) 0%, rgba(82, 222, 151, 1) 100%);
+  background: -webkit-linear-gradient(0deg, rgba(60, 157, 155, 1) 0%, rgba(82, 222, 151, 1) 100%);
+  background: linear-gradient(0deg, rgba(60, 157, 155, 1) 0%, rgba(82, 222, 151, 1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#3c9d9b", endColorstr="#52de97", GradientType=1);
+
+  h1 {
+    color: $white;
+    text-align: center;
+  }
+
+  p {
+    text-align: center;
+    color: $white;
+  }
+}

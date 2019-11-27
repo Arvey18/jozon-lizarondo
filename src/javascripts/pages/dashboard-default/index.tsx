@@ -29,6 +29,12 @@ const themeFloatingBtn = createMuiTheme({
 export default function DashboardDefault(props: any): ReactElement {
   // variables
   const classes = useStyles();
+
+  // use effects
+  React.useEffect(() => {
+    document.title = 'Dashboard | Jozon - Lizarondo';
+  });
+
   return (
     <div id="jlDashboardDefault">
       <Grid container alignItems="center">

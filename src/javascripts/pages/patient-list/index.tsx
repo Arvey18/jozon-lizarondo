@@ -216,9 +216,16 @@ export default function DashboardPatients(props: any): ReactElement {
   // variables
   const classes = useStyles();
 
+  // states
   const [year, setYear] = React.useState(2019);
   const [page, setPage] = React.useState(0);
 
+  // use effects
+  React.useEffect(() => {
+    document.title = 'Dashboard Patients | Jozon - Lizarondo';
+  });
+
+  // custom functions
   const handleYearChange = (event: React.ChangeEvent<{value: unknown}>) => {
     setYear(event.target.value as number);
   };
