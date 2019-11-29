@@ -117,7 +117,6 @@ export default function DashboardMiniDrawer(props: any): ReactElement {
   const [open, setOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [pageTitle, setPageTitle] = React.useState('Dashboard');
-  const [pageTitleRes, setPageTitleRes] = React.useState(<div>Dashboard</div>);
   const openSettingsMenu = Boolean(anchorEl);
 
   // use effects
@@ -128,27 +127,6 @@ export default function DashboardMiniDrawer(props: any): ReactElement {
       setPageTitle(page_title);
     };
   });
-
-  React.useEffect(() => {
-    const handleChangeRoute = (route: string) => {
-      props.history.push(route);
-    };
-    const handleCheckPageTitle = () => {
-      setPageTitleRes(
-        pageTitle === 'Dashboard' ? (
-          <div>Dashboard</div>
-        ) : (
-          <div className={classes.prevRoute}>
-            <span onClick={() => handleChangeRoute('/dashboard')}>
-              Dashboard
-            </span>{' '}
-            / <span className={classes.currentRoute}>{pageTitle}</span>
-          </div>
-        )
-      );
-    };
-    handleCheckPageTitle();
-  }, [pageTitle, classes.currentRoute, classes.prevRoute, props]);
 
   // custom functions
   const handleDrawerOpen = () => {
@@ -198,7 +176,16 @@ export default function DashboardMiniDrawer(props: any): ReactElement {
             <MenuIcon fontSize="large" />
           </IconButton>
           <Typography variant="h5" noWrap className={classes.clicker}>
-            {pageTitleRes}
+            {pageTitle === 'Dashboard' ? (
+              <div>Dashboard</div>
+            ) : (
+              <div className={classes.prevRoute}>
+                <span onClick={() => handleChangeRoute('/dashboard')}>
+                  Dashboard
+                </span>{' '}
+                / <span className={classes.currentRoute}>{pageTitle}</span>
+              </div>
+            )}
           </Typography>
           <div className={classes.flexGrow}>
             {location === '/dashboard' ? (
