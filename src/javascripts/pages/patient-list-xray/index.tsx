@@ -19,6 +19,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
+import AccountBoxIcon from '@material-ui/icons/AccountBox';
 
 // variables
 interface Column {
@@ -223,6 +224,7 @@ export default function DashboardPatientsXRay(props: any): ReactElement {
   // use effects
   React.useEffect(() => {
     document.title = 'Dashboard Patients X-Ray | Jozon - Lizarondo';
+    localStorage.setItem('page_title', 'Patients X-Ray');
   });
 
   // custom functions
@@ -242,6 +244,7 @@ export default function DashboardPatientsXRay(props: any): ReactElement {
           variant="h2"
           noWrap
         >
+          <AccountBoxIcon className={classes.greetingsIcon} />
           Patient List X-Ray
         </Typography>
         <ThemeProvider theme={themeFloatingBtn}>

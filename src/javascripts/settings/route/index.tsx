@@ -16,6 +16,18 @@ export default function Routes() {
       <Route exact path="/dashboard-ultrasound" component={Dashboard} />
       <Route exact path="/dashboard-ecg" component={Dashboard} />
       <Route exact path="/dashboard-laboratory" component={Dashboard} />
+      <Route exact path="/dashboard-settings" component={Dashboard} />
+      <Route
+        exact
+        path="/dashboard-settings-profile-information"
+        component={Dashboard}
+      />
+      <Route
+        exact
+        path="/dashboard-settings-user-management"
+        component={Dashboard}
+      />
+      <Route exact path="/dashboard-settings-password" component={Dashboard} />
       <Route component={NoMatch} />
     </Switch>
   );

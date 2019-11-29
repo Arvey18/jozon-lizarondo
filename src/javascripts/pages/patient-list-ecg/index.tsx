@@ -19,6 +19,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 
 // variables
 interface Column {
@@ -223,6 +224,7 @@ export default function DashboardPatientsECG(props: any): ReactElement {
   // use effects
   React.useEffect(() => {
     document.title = 'Dashboard Patients ECG | Jozon - Lizarondo';
+    localStorage.setItem('page_title', 'Patients ECG');
   });
 
   // custom functions
@@ -242,6 +244,7 @@ export default function DashboardPatientsECG(props: any): ReactElement {
           variant="h2"
           noWrap
         >
+          <FavoriteIcon className={classes.greetingsIcon} />
           Patient List ECG
         </Typography>
         <ThemeProvider theme={themeFloatingBtn}>

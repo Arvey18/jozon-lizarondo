@@ -19,6 +19,13 @@ export const useStyles = makeStyles((theme: Theme) =>
     greetings: {
       color: '#222222',
       lineHeight: 1.5,
+      display: 'flex',
+      alignItems: 'center',
+    },
+    greetingsIcon: {
+      marginRight: '10px',
+      fontSize: '3.75rem',
+      color: '#394a6d',
     },
     grid: {
       marginTop: 60,

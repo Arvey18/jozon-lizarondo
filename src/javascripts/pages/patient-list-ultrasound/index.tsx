@@ -19,6 +19,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
+import AirlineSeatFlatAngledIcon from '@material-ui/icons/AirlineSeatFlatAngled';
 
 // variables
 interface Column {
@@ -223,6 +224,7 @@ export default function DashboardPatientsUltrasound(props: any): ReactElement {
   // use effects
   React.useEffect(() => {
     document.title = 'Dashboard Patients Ultrasound | Jozon - Lizarondo';
+    localStorage.setItem('page_title', 'Patients Ultrasound');
   });
 
   // custom functions
@@ -242,6 +244,7 @@ export default function DashboardPatientsUltrasound(props: any): ReactElement {
           variant="h2"
           noWrap
         >
+          <AirlineSeatFlatAngledIcon className={classes.greetingsIcon} />
           Patient List Ultrasound
         </Typography>
         <ThemeProvider theme={themeFloatingBtn}>

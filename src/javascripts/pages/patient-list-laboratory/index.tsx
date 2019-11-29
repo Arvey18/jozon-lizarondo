@@ -19,6 +19,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
+import BarChartIcon from '@material-ui/icons/BarChart';
 
 // variables
 interface Column {
@@ -223,6 +224,7 @@ export default function DashboardPatientsLaboratory(props: any): ReactElement {
   // use effects
   React.useEffect(() => {
     document.title = 'Dashboard Patients Laboratory | Jozon - Lizarondo';
+    localStorage.setItem('page_title', 'Patients Laboratory');
   });
 
   // custom functions
@@ -242,6 +244,7 @@ export default function DashboardPatientsLaboratory(props: any): ReactElement {
           variant="h2"
           noWrap
         >
+          <BarChartIcon className={classes.greetingsIcon} />
           Patient List Laboratory
         </Typography>
         <ThemeProvider theme={themeFloatingBtn}>

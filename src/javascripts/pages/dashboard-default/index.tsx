@@ -13,6 +13,7 @@ import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import AirlineSeatFlatAngledIcon from '@material-ui/icons/AirlineSeatFlatAngled';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import BarChartIcon from '@material-ui/icons/BarChart';
+import HomeIcon from '@material-ui/icons/Home';
 
 // components
 import PatientGraph from '../../components/patient-graph';
@@ -33,6 +34,7 @@ export default function DashboardDefault(props: any): ReactElement {
   // use effects
   React.useEffect(() => {
     document.title = 'Dashboard | Jozon - Lizarondo';
+    localStorage.setItem('page_title', 'Dashboard');
   });
 
   return (
@@ -43,6 +45,7 @@ export default function DashboardDefault(props: any): ReactElement {
           variant="h2"
           noWrap
         >
+          <HomeIcon className={classes.greetingsIcon} />
           Greetings Arvey!
         </Typography>
         <ThemeProvider theme={themeFloatingBtn}>

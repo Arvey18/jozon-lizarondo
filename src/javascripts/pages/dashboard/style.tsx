@@ -91,6 +91,14 @@ export const useStyles = makeStyles((theme: Theme) =>
       width: '25px',
       height: '25px',
     },
+    avatarClicker: {
+      cursor: 'pointer',
+      display: 'flex',
+      alignItems: 'center',
+    },
+    clicker: {
+      cursor: 'pointer',
+    },
     drawerOpen: {
       width: drawerWidth,
       transition: theme.transitions.create('width', {
@@ -159,6 +167,18 @@ export const useStyles = makeStyles((theme: Theme) =>
         width: 'auto',
       },
     },
+    settingsMenu: {
+      padding: '8px',
+    },
+    menuItem: {
+      fontSize: '16px',
+      borderRadius: '2px',
+      color: '#222222',
+      '&:hover': {
+        backgroundColor: '#394a6d',
+        color: '#FFFFFF',
+      },
+    },
     searchIcon: {
       width: 42,
       height: '100%',
@@ -190,6 +210,12 @@ export const useStyles = makeStyles((theme: Theme) =>
     fabIcon: {
       fontSize: 30,
       color: '#FFFFFF',
+    },
+    prevRoute: {
+      fontWeight: 100,
+    },
+    currentRoute: {
+      fontWeight: 400,
     },
   })
 );

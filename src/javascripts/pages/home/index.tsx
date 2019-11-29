@@ -1,11 +1,11 @@
 import React, {ReactElement} from 'react';
-import {createMuiTheme, ThemeProvider} from '@material-ui/core/styles';
 import {connect} from 'react-redux';
 import {LOGIN} from '../../actions/auth';
 import clsx from 'clsx';
-import {useStyles} from './style';
 
 // MUI
+import {createMuiTheme, ThemeProvider} from '@material-ui/core/styles';
+import {useStyles} from './style';
 import Button from '@material-ui/core/Button';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
@@ -54,6 +54,7 @@ const Home = (props: any): ReactElement => {
 
   // use effects
   React.useEffect(() => {
+    document.title = 'Jozon - Lizarondo';
     const login = localStorage.getItem('login');
     const token = localStorage.getItem('token');
     if (login === 'true' && token !== '') {
@@ -90,9 +91,8 @@ const Home = (props: any): ReactElement => {
         if (result.detail === undefined) {
           localStorage.setItem('login', 'true');
           localStorage.setItem('token', result.access);
-          setTimeout(() => {
-            props.history.push('/dashboard');
-          }, 200);
+          localStorage.setItem('page_title', 'Dashboard');
+          props.history.push('/dashboard');
         } else {
           setErrorMessage('You have entered incorrect Username or Password.');
           setShowErrorMessage(true);

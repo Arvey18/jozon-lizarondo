@@ -19,6 +19,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
+import PeopleIcon from '@material-ui/icons/People';
 
 // variables
 interface Column {
@@ -223,6 +224,7 @@ export default function DashboardPatients(props: any): ReactElement {
   // use effects
   React.useEffect(() => {
     document.title = 'Dashboard Patients | Jozon - Lizarondo';
+    localStorage.setItem('page_title', 'Patients');
   });
 
   // custom functions
@@ -242,6 +244,7 @@ export default function DashboardPatients(props: any): ReactElement {
           variant="h2"
           noWrap
         >
+          <PeopleIcon className={classes.greetingsIcon} />
           Patient List
         </Typography>
         <ThemeProvider theme={themeFloatingBtn}>

@@ -5,6 +5,8 @@ export const useStyles = makeStyles((theme: Theme) =>
     greetings: {
       color: '#222222',
       lineHeight: 1.5,
+      display: 'flex',
+      alignItems: 'center',
     },
     grid: {
       marginTop: 60,
@@ -24,6 +26,11 @@ export const useStyles = makeStyles((theme: Theme) =>
     },
     flexGrow: {
       flexGrow: 1,
+    },
+    greetingsIcon: {
+      marginRight: '10px',
+      fontSize: '3.75rem',
+      color: '#394a6d',
     },
   })
 );

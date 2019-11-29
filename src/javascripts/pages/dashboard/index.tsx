@@ -31,6 +31,8 @@ import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
 import VideogameAssetIcon from '@material-ui/icons/VideogameAsset';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 import {useStyles} from './style';
 
 // styles
@@ -47,6 +49,7 @@ import DashboardXRay from '../patient-list-xray';
 import DashboardUltrasound from '../patient-list-ultrasound';
 import DashboardECG from '../patient-list-ecg';
 import DashboardLaboratory from '../patient-list-laboratory';
+import DashboardSettings from '../settings';
 
 export default function DashboardMiniDrawer(props: any): ReactElement {
   // variables
@@ -112,6 +115,40 @@ export default function DashboardMiniDrawer(props: any): ReactElement {
 
   // state
   const [open, setOpen] = React.useState(false);
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [pageTitle, setPageTitle] = React.useState('Dashboard');
+  const [pageTitleRes, setPageTitleRes] = React.useState(<div>Dashboard</div>);
+  const openSettingsMenu = Boolean(anchorEl);
+
+  // use effects
+
+  React.useEffect(() => {
+    return () => {
+      const page_title = localStorage.getItem('page_title') as string;
+      setPageTitle(page_title);
+    };
+  });
+
+  React.useEffect(() => {
+    const handleChangeRoute = (route: string) => {
+      props.history.push(route);
+    };
+    const handleCheckPageTitle = () => {
+      setPageTitleRes(
+        pageTitle === 'Dashboard' ? (
+          <div>Dashboard</div>
+        ) : (
+          <div className={classes.prevRoute}>
+            <span onClick={() => handleChangeRoute('/dashboard')}>
+              Dashboard
+            </span>{' '}
+            / <span className={classes.currentRoute}>{pageTitle}</span>
+          </div>
+        )
+      );
+    };
+    handleCheckPageTitle();
+  }, [pageTitle, classes.currentRoute, classes.prevRoute, props]);
 
   // custom functions
   const handleDrawerOpen = () => {
@@ -125,6 +162,19 @@ export default function DashboardMiniDrawer(props: any): ReactElement {
   };
 
   const handleChangeRoute = (route: string) => {
+    props.history.push(route);
+  };
+
+  const handleSettingsMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleSettingsMenuRoute = (route: string) => {
+    setAnchorEl(null);
     props.history.push(route);
   };
 
@@ -147,8 +197,8 @@ export default function DashboardMiniDrawer(props: any): ReactElement {
           >
             <MenuIcon fontSize="large" />
           </IconButton>
-          <Typography variant="h5" noWrap>
-            Dashboard
+          <Typography variant="h5" noWrap className={classes.clicker}>
+            {pageTitleRes}
           </Typography>
           <div className={classes.flexGrow}>
             {location === '/dashboard' ? (
@@ -168,14 +218,21 @@ export default function DashboardMiniDrawer(props: any): ReactElement {
             ) : null}
           </div>
           <Grid className={classes.avatarCon}>
-            <Avatar
-              alt="profile-pic"
-              src={AvatarImage}
-              className={classes.avatarImage}
-            />
-            <Typography noWrap className={classes.avatarName}>
-              Arvey Jimenez
-            </Typography>
+            <div
+              onClick={() =>
+                handleChangeRoute('/dashboard-settings-profile-information')
+              }
+              className={classes.avatarClicker}
+            >
+              <Avatar
+                alt="profile-pic"
+                src={AvatarImage}
+                className={classes.avatarImage}
+              />
+              <Typography noWrap className={classes.avatarName}>
+                Arvey Jimenez
+              </Typography>
+            </div>
             <Divider
               className={classes.appBarMenuDivider}
               orientation="vertical"
@@ -183,13 +240,65 @@ export default function DashboardMiniDrawer(props: any): ReactElement {
           </Grid>
 
           <Grid className={classes.avatarCon}>
-            <IconButton
-              aria-label="log out"
-              size="small"
-              className={classes.settingsSpace}
-            >
-              <SettingsIcon className={classes.white} />
-            </IconButton>
+            <div>
+              <IconButton
+                aria-label="log out"
+                size="small"
+                className={classes.settingsSpace}
+                onClick={handleSettingsMenu}
+              >
+                <SettingsIcon className={classes.white} />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'right',
+                }}
+                open={openSettingsMenu}
+                onClose={handleClose}
+                className={classes.settingsMenu}
+                MenuListProps={{
+                  className: classes.settingsMenu,
+                }}
+              >
+                <MenuItem
+                  className={classes.menuItem}
+                  onClick={() =>
+                    handleSettingsMenuRoute(
+                      '/dashboard-settings-profile-information'
+                    )
+                  }
+                >
+                  Profile Information
+                </MenuItem>
+                <MenuItem
+                  className={classes.menuItem}
+                  onClick={() =>
+                    handleSettingsMenuRoute(
+                      '/dashboard-settings-user-management'
+                    )
+                  }
+                >
+                  Users Management
+                </MenuItem>
+                <MenuItem
+                  className={classes.menuItem}
+                  onClick={() =>
+                    handleSettingsMenuRoute('/dashboard-settings-password')
+                  }
+                >
+                  Password
+                </MenuItem>
+              </Menu>
+            </div>
+
             <IconButton
               onClick={handleLogout}
               aria-label="log out"
@@ -287,6 +396,26 @@ export default function DashboardMiniDrawer(props: any): ReactElement {
             exact
             path="/dashboard-laboratory"
             component={DashboardLaboratory}
+          />
+          <Route
+            exact
+            path="/dashboard-settings"
+            component={DashboardSettings}
+          />
+          <Route
+            exact
+            path="/dashboard-settings-profile-information"
+            component={DashboardSettings}
+          />
+          <Route
+            exact
+            path="/dashboard-settings-user-management"
+            component={DashboardSettings}
+          />
+          <Route
+            exact
+            path="/dashboard-settings-password"
+            component={DashboardSettings}
           />
         </div>
         <Grid container className="copyright">
