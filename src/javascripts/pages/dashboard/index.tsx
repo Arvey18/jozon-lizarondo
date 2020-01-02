@@ -66,7 +66,7 @@ export default function DashboardMiniDrawer(props: any): ReactElement {
     {
       text: 'Patients',
       icon: <PeopleIcon className={classes.icon} />,
-      route: '/dashboard-patients',
+      route: '/dashboard-patients/ ',
       active: location === '/dashboard-patients' ? true : false,
     },
     {
@@ -117,10 +117,10 @@ export default function DashboardMiniDrawer(props: any): ReactElement {
   const [open, setOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [pageTitle, setPageTitle] = React.useState('Dashboard');
+  const [search, setSearch] = React.useState('');
   const openSettingsMenu = Boolean(anchorEl);
 
   // use effects
-
   React.useEffect(() => {
     return () => {
       const page_title = localStorage.getItem('page_title') as string;
@@ -154,6 +154,23 @@ export default function DashboardMiniDrawer(props: any): ReactElement {
   const handleSettingsMenuRoute = (route: string) => {
     setAnchorEl(null);
     props.history.push(route);
+  };
+
+  const handleSearch = () => {
+    if (search !== '') {
+      setSearch('');
+      props.history.push('/dashboard-patients/' + search);
+    }
+  };
+
+  const handleChange = (event: React.ChangeEvent<{value: unknown}>) => {
+    setSearch(event.target.value as string);
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === 'Enter') {
+      handleSearch();
+    }
   };
 
   return (
@@ -200,6 +217,8 @@ export default function DashboardMiniDrawer(props: any): ReactElement {
                     input: classes.inputInput,
                   }}
                   inputProps={{'aria-label': 'search patient'}}
+                  onChange={handleChange}
+                  onKeyDown={handleKeyDown}
                 />
               </div>
             ) : null}
@@ -369,7 +388,7 @@ export default function DashboardMiniDrawer(props: any): ReactElement {
           <Route exact path="/dashboard" component={DashboardDefault} />
           <Route
             exact
-            path="/dashboard-patients"
+            path="/dashboard-patients/:search?/"
             component={DashboardPatients}
           />
           <Route exact path="/dashboard-xray" component={DashboardXRay} />

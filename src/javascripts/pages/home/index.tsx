@@ -1,4 +1,4 @@
-import React, {ReactElement} from 'react';
+import React, {ReactElement, KeyboardEvent} from 'react';
 import {connect} from 'react-redux';
 import {LOGIN} from '../../actions/auth';
 import clsx from 'clsx';
@@ -83,6 +83,12 @@ const Home = (props: any): ReactElement => {
 
   const handlePasswordChange = (event: React.ChangeEvent<{value: unknown}>) => {
     setPassword(event.target.value as string);
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === 'Enter') {
+      handleLogin();
+    }
   };
 
   const handleLogin = () => {
@@ -190,6 +196,7 @@ const Home = (props: any): ReactElement => {
                 margin="normal"
                 autoComplete="off"
                 onChange={handleUsernameChange}
+                onKeyDown={handleKeyDown}
                 value={username}
                 error={showerrormessage}
               />
@@ -201,6 +208,7 @@ const Home = (props: any): ReactElement => {
                 autoComplete="off"
                 margin="normal"
                 onChange={handlePasswordChange}
+                onKeyDown={handleKeyDown}
                 value={password}
                 error={showerrormessage}
               />

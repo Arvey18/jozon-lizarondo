@@ -27,6 +27,27 @@ export const useStyles = makeStyles((theme: Theme) =>
       fontSize: '3.75rem',
       color: '#394a6d',
     },
+    tableHeader: {
+      backgroundColor: '#394a6d !important',
+      fontSize: '12px !important',
+      fontWeight: 'bold',
+      color: '#FFFFFF !important',
+    },
+    actionButtonEdit: {
+      backgroundColor: '#c0ffb3',
+      marginRight: '10px',
+      color: '#fff',
+      '&:hover': {
+        backgroundColor: '#abe69e',
+      },
+    },
+    actionButtonDelete: {
+      backgroundColor: '#f44336',
+      color: '#fff',
+      '&:hover': {
+        backgroundColor: '#e24135',
+      },
+    },
     grid: {
       marginTop: 60,
       marginLeft: -15,

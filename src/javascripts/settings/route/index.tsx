@@ -11,7 +11,7 @@ export default function Routes() {
     <Switch>
       <Route exact path="/" component={Home} />
       <Route exact path="/dashboard" component={Dashboard} />
-      <Route exact path="/dashboard-patients" component={Dashboard} />
+      <Route exact path="/dashboard-patients/:search?/" component={Dashboard} />
       <Route exact path="/dashboard-xray" component={Dashboard} />
       <Route exact path="/dashboard-ultrasound" component={Dashboard} />
       <Route exact path="/dashboard-ecg" component={Dashboard} />

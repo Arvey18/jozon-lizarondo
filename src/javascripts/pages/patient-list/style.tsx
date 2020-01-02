@@ -67,6 +67,30 @@ export const useStyles = makeStyles((theme: Theme) =>
     filterCon: {
       marginTop: 30,
     },
+    headerId: {
+      display: 'none !important',
+    },
+    tableHeader: {
+      backgroundColor: '#394a6d !important',
+      fontSize: '12px !important',
+      fontWeight: 'bold',
+      color: '#FFFFFF !important',
+    },
+    actionButtonEdit: {
+      backgroundColor: '#c0ffb3',
+      marginRight: '10px',
+      color: '#fff',
+      '&:hover': {
+        backgroundColor: '#abe69e',
+      },
+    },
+    actionButtonDelete: {
+      backgroundColor: '#f44336',
+      color: '#fff',
+      '&:hover': {
+        backgroundColor: '#e24135',
+      },
+    },
     searchIcon: {
       width: 42,
       height: '100%',
