@@ -91,15 +91,37 @@ export default function PatientGraph({title}: IProps): ReactElement {
       },
     ],
   };
-  const [year, setYear] = React.useState(2019);
+  const date = new Date();
+  const currentYear = date.getFullYear();
+
+  // use states
+  const [year, setYear] = React.useState(currentYear);
+
+  // custom functions
   const handleYearChange = (event: React.ChangeEvent<{value: unknown}>) => {
     setYear(event.target.value as number);
+  };
+  const handleDropDownYearList = () => {
+    const list = [];
+    const date = new Date();
+    let currentYear = date.getFullYear();
+    for (let x = 0; x <= 10; x++) {
+      list.push(
+        <MenuItem key={x} className="year-select-menu" value={currentYear}>
+          {currentYear}
+        </MenuItem>
+      );
+      currentYear = currentYear - 1;
+    }
+    return list;
   };
   return (
     <Grid container className="graph-dashboard">
       <div>
         <Grid className="graph-header" container alignItems="center">
-          <h1 className={classes.flexGrow}>{title} - 2019</h1>
+          <h1 className={classes.flexGrow}>
+            {title} - {currentYear}
+          </h1>
           <ThemeProvider theme={themeSelect}>
             <Select
               labelId="demo-simple-select-label"
@@ -108,15 +130,7 @@ export default function PatientGraph({title}: IProps): ReactElement {
               onChange={handleYearChange}
               className="year-select"
             >
-              <MenuItem className="year-select-menu" value={2019}>
-                2019
-              </MenuItem>
-              <MenuItem className="year-select-menu" value={2018}>
-                2018
-              </MenuItem>
-              <MenuItem className="year-select-menu" value={2017}>
-                2017
-              </MenuItem>
+              {handleDropDownYearList()}
             </Select>
           </ThemeProvider>
         </Grid>

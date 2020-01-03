@@ -26,6 +26,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 
 // components
 import DeleteModal from '../../components/delete-modal';
+import PatientModal from './patient-modal';
 
 // variables
 interface Column {
@@ -38,16 +39,16 @@ const columns: Column[] = [
   {id: 'patientName', name: 'Patient Name'},
   {id: 'age', name: 'Age'},
   {
-    id: 'caseNumber',
-    name: 'Case Number',
+    id: 'address',
+    name: 'Address',
   },
   {
-    id: 'description',
-    name: 'Description',
+    id: 'sex',
+    name: 'Sex',
   },
   {
-    id: 'date',
-    name: 'Date',
+    id: 'dob',
+    name: 'Date of Birth',
   },
 ];
 
@@ -55,20 +56,20 @@ interface Data {
   id: string;
   patientName: string;
   age: string;
-  caseNumber: string;
-  description: string;
-  date: any;
+  address: string;
+  sex: string;
+  dob: string;
 }
 
 function createData(
   id: string,
   patientName: string,
   age: string,
-  caseNumber: string,
-  description: string,
-  date: any
+  address: string,
+  sex: string,
+  dob: string
 ): Data {
-  return {id, patientName, age, caseNumber, description, date};
+  return {id, patientName, age, address, sex, dob};
 }
 
 const rows = [
@@ -76,32 +77,32 @@ const rows = [
     'JFF92282',
     'Arvey Jimenez',
     '21',
-    '298NGG',
-    'Got problem on lungs',
+    '298NGG Camp Tinio',
+    'Male',
     '2010-12-23'
   ),
   createData(
     'JHGH8282',
     'John Dave',
     '21',
-    '248NGO',
-    'Got problem on lungs',
+    '248NGO Bangad',
+    'Male',
     '2010-12-23'
   ),
   createData(
     'J2JFHF222',
     'Arvey Snow',
     '55',
-    'H98NGG',
-    'Got problem on lungs',
+    'H98NGG Fort Magsaysay',
+    'Male',
     '2010-12-23'
   ),
   createData(
     'JFFJGHH222',
     'Jake Vague',
     '34',
-    '2JHNGG',
-    'Got problem on lungs',
+    '2JHNGG San Isidro',
+    'Female',
     '2010-12-23'
   ),
 ];
@@ -133,6 +134,8 @@ export default function DashboardPatients(props: any): ReactElement {
   const [year, setYear] = React.useState(currentYear);
   const [page, setPage] = React.useState(0);
   const [openDeleteModal, setOpenDeleteModal] = React.useState(false);
+  const [openPatientModal, setOpenPatientModal] = React.useState(false);
+  const [editPatientModal, setEditPatientModal] = React.useState(false);
   const [search, setSearch] = React.useState('');
 
   // use effects
@@ -184,6 +187,11 @@ export default function DashboardPatients(props: any): ReactElement {
     setSearch(event.target.value as string);
   };
 
+  const handleShowPatientModal = (show: boolean, edit: boolean) => {
+    setOpenPatientModal(show);
+    setEditPatientModal(edit);
+  };
+
   return (
     <div id="jlDashboardPatients">
       <DeleteModal
@@ -191,6 +199,11 @@ export default function DashboardPatients(props: any): ReactElement {
         returnStatus={(status, removeData) =>
           handleDeleteModal(status, removeData)
         }
+      />
+      <PatientModal
+        show={openPatientModal}
+        edit={editPatientModal}
+        returnStatus={(show, edit) => handleShowPatientModal(show, edit)}
       />
       <Grid container alignItems="center">
         <Typography
@@ -202,7 +215,12 @@ export default function DashboardPatients(props: any): ReactElement {
           Patient List
         </Typography>
         <ThemeProvider theme={themeFloatingBtn}>
-          <Fab color="primary" aria-label="Add Patient" className={classes.fab}>
+          <Fab
+            onClick={() => handleShowPatientModal(true, false)}
+            color="primary"
+            aria-label="Add Patient"
+            className={classes.fab}
+          >
             <AddIcon className={classes.fabIcon} />
           </Fab>
         </ThemeProvider>

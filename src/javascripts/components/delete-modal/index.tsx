@@ -35,15 +35,8 @@ export default function DeleteModal({
   };
 
   return (
-    <Dialog
-      open={open}
-      onClose={() => handleDialog(false, false)}
-      aria-labelledby="alert-dialog-title"
-      aria-describedby="alert-dialog-description"
-    >
-      <DialogTitle id="alert-dialog-title">
-        Are you sure you want to Delete Data?
-      </DialogTitle>
+    <Dialog open={open} onClose={() => handleDialog(false, false)}>
+      <DialogTitle>Are you sure you want to Delete Data?</DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
           Clicking <span className={classes.dangerButton}>Yes</span> Will
