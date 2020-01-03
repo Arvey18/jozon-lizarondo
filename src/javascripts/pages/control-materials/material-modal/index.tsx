@@ -1,7 +1,11 @@
 import React, {ReactElement} from 'react';
 import clsx from 'clsx';
 import {connect} from 'react-redux';
-import {ADD_MATERIAL} from '../../../actions/materials';
+import {
+  ADD_MATERIAL,
+  GET_MATERIAL,
+  UPDATE_MATERIAL,
+} from '../../../actions/materials';
 
 // MUI
 import 'date-fns';
@@ -30,8 +34,18 @@ const themeInput = createMuiTheme({
 interface IProps {
   show: boolean;
   edit: boolean;
+  id?: string;
   returnStatus: (show: boolean, edit: boolean) => void;
   addMaterial: (
+    mname: string,
+    description: string,
+    quantity: number,
+    cq: number,
+    price: number
+  ) => any;
+  getMaterial: (id: string) => any;
+  updateMaterial: (
+    id: string,
     mname: string,
     description: string,
     quantity: number,
@@ -51,8 +65,11 @@ interface IState {
 const MaterialModal = ({
   show,
   edit,
+  id,
   returnStatus,
   addMaterial,
+  getMaterial,
+  updateMaterial,
 }: IProps): ReactElement => {
   // variables
   const classes = useStyles();
@@ -70,10 +87,28 @@ const MaterialModal = ({
 
   // use effects
   React.useEffect(() => {
-    // if (edit) {
-    // }
     setOpen(show);
   }, [show]);
+
+  React.useEffect(() => {
+    if (edit && id !== undefined) {
+      getMaterial(id).then((result: any) => {
+        if (result.statusText === 'OK') {
+          const data = result.data;
+          setFieldState({
+            ...fieldState,
+            mname: data.name,
+            description: data.description,
+            quantity: data.quantity,
+            cq: data.charging_quantity,
+            price: data.price,
+          });
+        }
+      });
+    } else {
+      handleResetForm();
+    }
+  }, [edit]);
 
   React.useEffect(() => {
     if (fieldState.mname.length > 0 && fieldState.description.length > 0) {
@@ -85,15 +120,23 @@ const MaterialModal = ({
 
   // custom functions
   const handleSave = (status: boolean, edit: boolean) => {
-    returnStatus(status, edit);
     if (status) {
       handleSaveData();
+      returnStatus(false, edit);
     } else {
       returnStatus(status, edit);
     }
   };
 
   const handleResetForm = () => {
+    setFieldState({
+      ...fieldState,
+      mname: '',
+      description: '',
+      quantity: 0,
+      cq: 0,
+      price: 0,
+    });
     returnStatus(false, false);
   };
 
@@ -117,13 +160,33 @@ const MaterialModal = ({
     });
   };
 
+  const handleUpdateData = () => {
+    if (id !== undefined) {
+      updateMaterial(
+        id,
+        fieldState.mname,
+        fieldState.description,
+        fieldState.quantity,
+        fieldState.cq,
+        fieldState.price
+      ).then((result: any) => {
+        console.log(result);
+        if (result.statusText === 'OK') {
+          returnStatus(false, false);
+        }
+      });
+    }
+  };
+
   return (
     <Dialog
       className="material-modal"
       open={open}
       onClose={() => handleSave(false, false)}
     >
-      <DialogTitle className={classes.formHeader}>Add Material</DialogTitle>
+      <DialogTitle className={classes.formHeader}>
+        {edit ? 'Update Material ' + fieldState.mname : 'Add Material'}
+      </DialogTitle>
       <DialogContent>
         <Grid container className={clsx(classes.grid, classes.gridTop)}>
           <Grid item className={clsx(classes.gridItem)} sm={6}>
@@ -135,6 +198,7 @@ const MaterialModal = ({
                 margin="normal"
                 autoComplete="off"
                 onChange={handleChange('mname')}
+                value={fieldState.mname}
               />
             </ThemeProvider>
           </Grid>
@@ -147,6 +211,7 @@ const MaterialModal = ({
                 margin="normal"
                 autoComplete="off"
                 onChange={handleChange('description')}
+                value={fieldState.description}
               />
             </ThemeProvider>
           </Grid>
@@ -162,6 +227,7 @@ const MaterialModal = ({
                 autoComplete="off"
                 type="number"
                 onChange={handleChange('quantity')}
+                value={fieldState.quantity}
               />
             </ThemeProvider>
           </Grid>
@@ -175,6 +241,7 @@ const MaterialModal = ({
                 autoComplete="off"
                 type="number"
                 onChange={handleChange('cq')}
+                value={fieldState.cq}
               />
             </ThemeProvider>
           </Grid>
@@ -190,6 +257,7 @@ const MaterialModal = ({
                 autoComplete="off"
                 type="number"
                 onChange={handleChange('price')}
+                value={fieldState.price}
               />
             </ThemeProvider>
           </Grid>
@@ -197,13 +265,23 @@ const MaterialModal = ({
       </DialogContent>
       <DialogActions className={classes.formFooter}>
         <Button onClick={handleResetForm}>Cancel</Button>
-        <Button
-          className={classes.saveButton}
-          onClick={() => handleSave(true, false)}
-          disabled={disableSave}
-        >
-          Save
-        </Button>
+        {edit ? (
+          <Button
+            className={classes.saveButton}
+            onClick={handleUpdateData}
+            disabled={disableSave}
+          >
+            Update
+          </Button>
+        ) : (
+          <Button
+            className={classes.saveButton}
+            onClick={() => handleSave(true, false)}
+            disabled={disableSave}
+          >
+            Save
+          </Button>
+        )}
       </DialogActions>
     </Dialog>
   );
@@ -219,6 +297,15 @@ const actionsToProps = (dispatch: any) => ({
     cq: number,
     price: number
   ) => dispatch(ADD_MATERIAL(mname, description, quantity, cq, price)),
+  getMaterial: (id: string) => dispatch(GET_MATERIAL(id)),
+  updateMaterial: (
+    id: string,
+    mname: string,
+    description: string,
+    quantity: number,
+    cq: number,
+    price: number
+  ) => dispatch(UPDATE_MATERIAL(id, mname, description, quantity, cq, price)),
 });
 
 export default connect(stateToProps, actionsToProps)(MaterialModal);

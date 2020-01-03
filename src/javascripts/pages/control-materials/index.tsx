@@ -85,7 +85,7 @@ const DashboardControlMaterials = (props: any): ReactElement => {
   const [editMaterialModal, setEditMaterialModal] = React.useState(false);
   const [dataMaterial, setDataMaterial] = React.useState('');
   const [dataRow, setDataRow] = React.useState([]);
-  const [deleteID, setDeleteID] = React.useState('');
+  const [materialID, setMaterialID] = React.useState('');
 
   // use effects
   React.useEffect(() => {
@@ -141,12 +141,11 @@ const DashboardControlMaterials = (props: any): ReactElement => {
     matID?: string
   ) => {
     if (matID !== undefined) {
-      setDeleteID(matID);
+      setMaterialID(matID);
     }
 
     if (removeData) {
-      props.deleteMaterial(deleteID).then((result: any) => {
-        console.log(result);
+      props.deleteMaterial(materialID).then((result: any) => {
         if (result.statusText === 'No Content') {
           setOpenDeleteModal(status);
         }
@@ -156,7 +155,14 @@ const DashboardControlMaterials = (props: any): ReactElement => {
     }
   };
 
-  const handleShowMaterialModal = (show: boolean, edit: boolean) => {
+  const handleShowMaterialModal = (
+    show: boolean,
+    edit: boolean,
+    matID?: string
+  ) => {
+    if (matID !== undefined) {
+      setMaterialID(matID);
+    }
     setOpenMaterialModal(show);
     setEditMaterialModal(edit);
   };
@@ -172,6 +178,7 @@ const DashboardControlMaterials = (props: any): ReactElement => {
       <MaterialModal
         show={openMaterialModal}
         edit={editMaterialModal}
+        id={materialID}
         returnStatus={(show, edit) => handleShowMaterialModal(show, edit)}
       />
       <Grid className={classes.gridHeader} container alignItems="center">
@@ -238,7 +245,12 @@ const DashboardControlMaterials = (props: any): ReactElement => {
                         })}
                         <TableCell align="right" key={key + '-action'}>
                           <div>
-                            <Button className={classes.actionButtonEdit}>
+                            <Button
+                              onClick={() =>
+                                handleShowMaterialModal(true, true, row['id'])
+                              }
+                              className={classes.actionButtonEdit}
+                            >
                               <EditIcon />
                             </Button>
                             <Button
