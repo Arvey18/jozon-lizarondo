@@ -4,11 +4,9 @@ import axios from 'axios';
 
 import {branch} from '../constant';
 
-// variables
-const token = localStorage.getItem('token');
-
 export const GET_MATERIALS = () => (dispatch: any) => {
   dispatch(SHOW_PROGRESS(true));
+  const token = localStorage.getItem('token');
   return axios({
     method: 'get',
     url: '/api/material/',
@@ -38,6 +36,7 @@ export const GET_MATERIALS = () => (dispatch: any) => {
 
 export const GET_MATERIAL = (id: string) => (dispatch: any) => {
   dispatch(SHOW_PROGRESS(true));
+  const token = localStorage.getItem('token');
   return axios({
     method: 'get',
     url: '/api/material/' + id + '/',
@@ -67,6 +66,7 @@ export const GET_MATERIAL = (id: string) => (dispatch: any) => {
 
 export const DELETE_MATERIAL = (id: string) => (dispatch: any) => {
   dispatch(SHOW_PROGRESS(true));
+  const token = localStorage.getItem('token');
   return axios({
     method: 'delete',
     url: '/api/material/' + id + '/',
@@ -102,6 +102,7 @@ export const ADD_MATERIAL = (
   price: number
 ) => (dispatch: any) => {
   dispatch(SHOW_PROGRESS(true));
+  const token = localStorage.getItem('token');
   return axios({
     method: 'post',
     url: '/api/material/',
@@ -146,6 +147,7 @@ export const UPDATE_MATERIAL = (
   price: number
 ) => (dispatch: any) => {
   dispatch(SHOW_PROGRESS(true));
+  const token = localStorage.getItem('token');
   return axios({
     method: 'patch',
     url: '/api/material/' + id + '/',

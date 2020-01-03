@@ -6,7 +6,7 @@ export const GET_USER_DATA = (user_id: string) => (dispatch: any) => {
   dispatch(SHOW_PROGRESS(true));
   return axios({
     method: 'get',
-    url: '/api/users/' + user_id,
+    url: '/api/users/' + user_id + '/',
     baseURL: API,
     headers: {
       'Content-Type': 'application/json',
