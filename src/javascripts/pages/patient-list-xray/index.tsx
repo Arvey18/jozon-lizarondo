@@ -26,6 +26,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 
 // components
 import DeleteModal from '../../components/delete-modal';
+import PatientModal from './patient-modal';
 
 // variables
 interface Column {
@@ -131,6 +132,8 @@ export default function DashboardPatientsXRay(props: any): ReactElement {
   const [year, setYear] = React.useState(currentYear);
   const [page, setPage] = React.useState(0);
   const [openDeleteModal, setOpenDeleteModal] = React.useState(false);
+  const [openPatientModal, setOpenPatientModal] = React.useState(false);
+  const [editPatientModal, setEditPatientModal] = React.useState(false);
 
   // use effects
   React.useEffect(() => {
@@ -169,6 +172,11 @@ export default function DashboardPatientsXRay(props: any): ReactElement {
     return list;
   };
 
+  const handleShowPatientModal = (show: boolean, edit: boolean) => {
+    setOpenPatientModal(show);
+    setEditPatientModal(edit);
+  };
+
   return (
     <div id="jlDashboardPatients">
       <DeleteModal
@@ -176,6 +184,11 @@ export default function DashboardPatientsXRay(props: any): ReactElement {
         returnStatus={(status, removeData) =>
           handleDeleteModal(status, removeData)
         }
+      />
+      <PatientModal
+        show={openPatientModal}
+        edit={editPatientModal}
+        returnStatus={(show, edit) => handleShowPatientModal(show, edit)}
       />
       <Grid container alignItems="center">
         <Typography
