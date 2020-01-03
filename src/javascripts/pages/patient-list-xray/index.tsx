@@ -163,7 +163,7 @@ export default function DashboardPatientsXRay(props: any): ReactElement {
     let currentYear = date.getFullYear();
     for (let x = 0; x <= 10; x++) {
       list.push(
-        <MenuItem className="year-select-menu" value={currentYear}>
+        <MenuItem key={x} className="year-select-menu" value={currentYear}>
           {currentYear}
         </MenuItem>
       );

@@ -1,4 +1,6 @@
 import React, {ReactElement} from 'react';
+import {connect} from 'react-redux';
+import {GET_USER_DATA} from '../../actions/user';
 
 // MUI
 import {useStyles} from './style';
@@ -20,14 +22,18 @@ const themeFloatingBtn = createMuiTheme({
   },
 });
 
-export default function DashboardSettingsProfileInformation(
-  props: any
-): ReactElement {
+const DashboardSettingsProfileInformation = (props: any): ReactElement => {
   // variables
   const classes = useStyles();
 
   // use effects
   React.useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const userID = user.user_id;
+    console.log(userID);
+    props.getUserData(userID).then((result: any) => {
+      console.log(result);
+    });
     document.title = 'Dashboard Profile Information | Jozon - Lizarondo';
     localStorage.setItem('page_title', 'Profile Information');
   });
@@ -107,4 +113,15 @@ export default function DashboardSettingsProfileInformation(
       </Grid>
     </div>
   );
-}
+};
+
+const stateToProps = () => ({});
+
+const actionsToProps = (dispatch: any) => ({
+  getUserData: (user_id: string) => dispatch(GET_USER_DATA(user_id)),
+});
+
+export default connect(
+  stateToProps,
+  actionsToProps
+)(DashboardSettingsProfileInformation);

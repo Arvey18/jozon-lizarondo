@@ -48,7 +48,7 @@ const themeSelect = createMuiTheme({
   },
 });
 
-export default function DeleteModal({
+export default function PatientModal({
   show,
   edit,
   returnStatus,

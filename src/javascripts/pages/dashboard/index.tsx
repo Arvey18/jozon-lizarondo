@@ -50,6 +50,7 @@ import DashboardUltrasound from '../patient-list-ultrasound';
 import DashboardECG from '../patient-list-ecg';
 import DashboardLaboratory from '../patient-list-laboratory';
 import DashboardSettings from '../settings';
+import DashboardControl from '../dashboard-control';
 
 export default function DashboardMiniDrawer(props: any): ReactElement {
   // variables
@@ -99,19 +100,25 @@ export default function DashboardMiniDrawer(props: any): ReactElement {
     {
       text: 'Report',
       icon: <NoteIcon className={classes.icon} />,
+      route: '/dashboard-report',
       active: false,
     },
     {
       text: 'Control',
       icon: <VideogameAssetIcon className={classes.icon} />,
-      active: false,
+      route: '/dashboard-control-materials',
+      active: location === '/dashboard-control-materials' ? true : false,
     },
     {
       text: 'Reference',
+      route: '/dashboard-reference',
       icon: <SettingsInputComponentIcon className={classes.icon} />,
       active: false,
     },
   ];
+
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  const username = user.username;
 
   // state
   const [open, setOpen] = React.useState(false);
@@ -236,7 +243,7 @@ export default function DashboardMiniDrawer(props: any): ReactElement {
                 className={classes.avatarImage}
               />
               <Typography noWrap className={classes.avatarName}>
-                Arvey Jimenez
+                {username}
               </Typography>
             </div>
             <Divider
@@ -366,7 +373,14 @@ export default function DashboardMiniDrawer(props: any): ReactElement {
         <Divider />
         <List className={classes.menuConList}>
           {menus2.map((val, index) => (
-            <ListItem button key={index}>
+            <ListItem
+              className={clsx(classes.menuButtonList, {
+                [classes.activeMenu]: val.active,
+              })}
+              button
+              key={index}
+              onClick={() => handleChangeRoute(val.route)}
+            >
               <ListItemIcon
                 className={clsx(classes.iconMenu, {
                   [classes.iconMenuActive]: val.active,
@@ -422,6 +436,12 @@ export default function DashboardMiniDrawer(props: any): ReactElement {
             exact
             path="/dashboard-settings-password"
             component={DashboardSettings}
+          />
+          <Route exact path="/dashboard-control" component={DashboardControl} />
+          <Route
+            exact
+            path="/dashboard-control-materials"
+            component={DashboardControl}
           />
         </div>
         <Grid container className="copyright">

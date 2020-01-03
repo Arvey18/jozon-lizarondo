@@ -97,6 +97,7 @@ const Home = (props: any): ReactElement => {
         if (result.detail === undefined) {
           localStorage.setItem('login', 'true');
           localStorage.setItem('token', result.access);
+          localStorage.setItem('user', JSON.stringify(parseJwt(result.access)));
           localStorage.setItem('page_title', 'Dashboard');
           props.history.push('/dashboard');
         } else {
@@ -112,6 +113,20 @@ const Home = (props: any): ReactElement => {
 
   const handleCloseSnackBar = () => {
     setShowErrorMessage(!showerrormessage);
+  };
+
+  const parseJwt = (token: any) => {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split('')
+        .map(function(c) {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        })
+        .join('')
+    );
+    return JSON.parse(jsonPayload);
   };
 
   return (
