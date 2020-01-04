@@ -51,6 +51,7 @@ import DashboardECG from '../patient-list-ecg';
 import DashboardLaboratory from '../patient-list-laboratory';
 import DashboardSettings from '../settings';
 import DashboardControl from '../dashboard-control';
+import DashboardReference from '../dashboard-reference';
 
 export default function DashboardMiniDrawer(props: any): ReactElement {
   // variables
@@ -111,9 +112,9 @@ export default function DashboardMiniDrawer(props: any): ReactElement {
     },
     {
       text: 'Reference',
-      route: '/dashboard-reference',
+      route: '/dashboard-reference-form',
       icon: <SettingsInputComponentIcon className={classes.icon} />,
-      active: false,
+      active: location === '/dashboard-reference-form' ? true : false,
     },
   ];
 
@@ -442,6 +443,11 @@ export default function DashboardMiniDrawer(props: any): ReactElement {
             exact
             path="/dashboard-control-materials"
             component={DashboardControl}
+          />
+          <Route
+            exact
+            path="/dashboard-reference-form"
+            component={DashboardReference}
           />
         </div>
         <Grid container className="copyright">

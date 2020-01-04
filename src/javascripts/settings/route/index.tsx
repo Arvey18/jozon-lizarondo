@@ -29,6 +29,7 @@ export default function Routes() {
       />
       <Route exact path="/dashboard-settings-password" component={Dashboard} />
       <Route exact path="/dashboard-control-materials" component={Dashboard} />
+      <Route exact path="/dashboard-reference-form" component={Dashboard} />
       <Route component={NoMatch} />
     </Switch>
   );
