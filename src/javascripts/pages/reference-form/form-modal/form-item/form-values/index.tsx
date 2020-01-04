@@ -31,7 +31,7 @@ const themeSelect = createMuiTheme({
 
 interface IProps {
   getValue: (formValue: string) => any;
-  resetData?: boolean;
+  resetData: boolean;
 }
 
 const FormValues = ({getValue, resetData}: IProps): ReactElement => {
@@ -61,7 +61,6 @@ const FormValues = ({getValue, resetData}: IProps): ReactElement => {
     if (resetData) {
       console.log(resetData);
       setFormValues('');
-      console.log(formValues);
     }
   }, [resetData]);
 

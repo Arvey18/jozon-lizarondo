@@ -33,17 +33,16 @@ const FormItem = ({}: IProps): ReactElement => {
 
   // use effects
   React.useEffect(() => {
-    if (itemName.length > 0) {
+    if (itemName.length > 0 && formValues.length > 0 && formValues !== '[]') {
       setDisableAdd(false);
     } else {
       setDisableAdd(true);
     }
-  }, [itemName]);
+  }, [itemName, formValues]);
 
   React.useEffect(() => {
     setFormItemData('[' + formItems + ']');
     handleReset();
-    setResetData(false);
   }, [formItems]);
 
   // variables
@@ -64,10 +63,9 @@ const FormItem = ({}: IProps): ReactElement => {
 
   const handleReset = () => {
     // setFormItemData('');
-
     setItemName('');
     setFormValues('[]');
-    setResetData(true);
+    setResetData(false);
     // setFormItems('[]');
   };
 
@@ -79,6 +77,7 @@ const FormItem = ({}: IProps): ReactElement => {
     } else {
       setFormItems(formItems + ',' + item);
     }
+    setResetData(true);
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
