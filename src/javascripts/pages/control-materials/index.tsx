@@ -120,8 +120,8 @@ const DashboardControlMaterials = (props: any): ReactElement => {
           )
         );
       });
-      setDataRow(rows);
     }
+    setDataRow(rows);
   }, [dataMaterial]);
 
   const handleGetData = () => {
@@ -226,7 +226,7 @@ const DashboardControlMaterials = (props: any): ReactElement => {
               </TableHead>
               <TableBody>
                 {dataRow
-                  .slice(page * 5, page * 5 + 5)
+                  .slice(page * 15, page * 15 + 15)
                   .map((row: any, key: any) => {
                     return (
                       <TableRow hover role="checkbox" tabIndex={-1} key={key}>
@@ -274,7 +274,7 @@ const DashboardControlMaterials = (props: any): ReactElement => {
             labelRowsPerPage=""
             component="div"
             count={dataRow.length}
-            rowsPerPage={5}
+            rowsPerPage={15}
             page={page}
             backIconButtonProps={{
               'aria-label': 'previous page',

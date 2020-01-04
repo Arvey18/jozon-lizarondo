@@ -155,6 +155,7 @@ const MaterialModal = ({
       fieldState.price
     ).then((result: any) => {
       if (result.statusText === 'Created') {
+        handleResetForm();
         returnStatus(false, false);
       }
     });

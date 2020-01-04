@@ -97,9 +97,9 @@ export const DELETE_MATERIAL = (id: string) => (dispatch: any) => {
 export const ADD_MATERIAL = (
   mname: string,
   description: string,
-  quantity: number,
-  cq: number,
-  price: number
+  quantity: number | string,
+  cq: number | string,
+  price: number | string
 ) => (dispatch: any) => {
   dispatch(SHOW_PROGRESS(true));
   const token = localStorage.getItem('token');
@@ -115,9 +115,9 @@ export const ADD_MATERIAL = (
       name: mname,
       description: description,
       branch: branch[1].fields.id,
-      quantity: quantity,
-      charging_quantity: cq,
-      price: price,
+      quantity: quantity === undefined || quantity === '' ? 0 : quantity,
+      charging_quantity: cq === undefined || cq === '' ? 0 : cq,
+      price: price === undefined || price === '' ? 0 : price,
     },
     onUploadProgress: function(progressEvent) {
       var percentCompleted = Math.round(
