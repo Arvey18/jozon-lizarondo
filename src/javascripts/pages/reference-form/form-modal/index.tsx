@@ -6,6 +6,7 @@ import {
   GET_REFERENCE_FORM,
   UPDATE_REFERENCE_FORM,
 } from '../../../actions/reference-form';
+import {GET_DEPARTMENTS} from '../../../actions/department';
 
 // MUI
 import 'date-fns';
@@ -51,9 +52,16 @@ interface IProps {
   edit: boolean;
   id?: string;
   returnStatus: (show: boolean, edit: boolean) => void;
-  addMaterial: (fname: string, description: string) => any;
+  addReference: (
+    fname: string,
+    description: string,
+    initial: string,
+    department: string,
+    formItem: string
+  ) => any;
   getMaterial: (id: string) => any;
   updateMaterial: (id: string, fname: string, description: string) => any;
+  getDepartments: () => any;
 }
 
 interface IState {
@@ -61,6 +69,7 @@ interface IState {
   description: string;
   initial: string;
   department: string;
+  formItem: any;
 }
 
 const ReferenceModal = ({
@@ -68,9 +77,10 @@ const ReferenceModal = ({
   edit,
   id,
   returnStatus,
-  addMaterial,
+  addReference,
   getMaterial,
   updateMaterial,
+  getDepartments,
 }: IProps): ReactElement => {
   // variables
   const classes = useStyles();
@@ -82,10 +92,22 @@ const ReferenceModal = ({
     description: '',
     initial: '',
     department: '',
+    formItem: '',
   });
   const [disableSave, setDisableSave] = React.useState(true);
+  const [departments, setDepartments] = React.useState([]);
 
   // use effects
+  React.useEffect(() => {
+    if (departments.length === 0) {
+      getDepartments().then((result: any) => {
+        if (result.statusText === 'OK') {
+          setDepartments(result.data);
+        }
+      });
+    }
+  }, [departments]);
+
   React.useEffect(() => {
     setOpen(show);
   }, [show]);
@@ -130,6 +152,9 @@ const ReferenceModal = ({
       ...fieldState,
       fname: '',
       description: '',
+      initial: '',
+      department: '',
+      formItem: '',
     });
     returnStatus(false, false);
   };
@@ -141,21 +166,31 @@ const ReferenceModal = ({
   };
 
   const handleSaveData = () => {
-    addMaterial(fieldState.fname, fieldState.description).then(
-      (result: any) => {
-        if (result.statusText === 'Created') {
-          handleResetForm();
-          returnStatus(false, false);
-        }
+    addReference(
+      fieldState.fname,
+      fieldState.description,
+      fieldState.initial,
+      fieldState.department,
+      fieldState.formItem
+    ).then((result: any) => {
+      if (result.statusText === 'Created') {
+        handleResetForm();
+        returnStatus(false, false);
       }
-    );
+    });
+  };
+
+  const handleSetFormItem = (formItem: any) => {
+    setFieldState({
+      ...fieldState,
+      formItem: formItem,
+    });
   };
 
   const handleUpdateData = () => {
     if (id !== undefined) {
       updateMaterial(id, fieldState.fname, fieldState.description).then(
         (result: any) => {
-          console.log(result);
           if (result.statusText === 'OK') {
             returnStatus(false, false);
           }
@@ -242,30 +277,27 @@ const ReferenceModal = ({
                   onChange={handleDepartmentChange}
                   className="department-select"
                 >
-                  <MenuItem className="department-select-menu" value="1">
-                    Laboratory
-                  </MenuItem>
-                  <MenuItem className="department-select-menu" value="2">
-                    X-Ray
-                  </MenuItem>
-                  <MenuItem className="department-select-menu" value="3">
-                    Ultrasound
-                  </MenuItem>
-                  <MenuItem className="department-select-menu" value="4">
-                    ECG
-                  </MenuItem>
-                  <MenuItem className="department-select-menu" value="5">
-                    Dental X-Ray
-                  </MenuItem>
-                  <MenuItem className="department-select-menu" value="6">
-                    2D Echo
-                  </MenuItem>
+                  {departments.length > 0
+                    ? departments.map((value: any, key: any) => {
+                        return (
+                          <MenuItem
+                            key={key}
+                            className="department-select-menu"
+                            value={value.id}
+                          >
+                            {value.name}
+                          </MenuItem>
+                        );
+                      })
+                    : null}
                 </Select>
               </FormControl>
             </ThemeProvider>
           </Grid>
         </Grid>
-        <FormItem />
+        <FormItem
+          getFormItem={(formItem: any) => handleSetFormItem(formItem)}
+        />
       </DialogContent>
       <DialogActions className={classes.formFooter}>
         <Button onClick={handleResetForm}>Cancel</Button>
@@ -294,11 +326,20 @@ const ReferenceModal = ({
 const stateToProps = () => ({});
 
 const actionsToProps = (dispatch: any) => ({
-  addMaterial: (fname: string, description: string) =>
-    dispatch(ADD_REFERENCE_FORM(fname, description)),
+  addReference: (
+    fname: string,
+    description: string,
+    initial: string,
+    department: string,
+    formItem: any
+  ) =>
+    dispatch(
+      ADD_REFERENCE_FORM(fname, description, initial, department, formItem)
+    ),
   getMaterial: (id: string) => dispatch(GET_REFERENCE_FORM(id)),
   updateMaterial: (id: string, fname: string, description: string) =>
     dispatch(UPDATE_REFERENCE_FORM(id, fname, description)),
+  getDepartments: () => dispatch(GET_DEPARTMENTS()),
 });
 
 export default connect(stateToProps, actionsToProps)(ReferenceModal);

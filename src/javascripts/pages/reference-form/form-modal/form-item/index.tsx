@@ -20,9 +20,11 @@ const themeInput = createMuiTheme({
   },
 });
 
-interface IProps {}
+interface IProps {
+  getFormItem: (formItem: any) => void;
+}
 
-const FormItem = ({}: IProps): ReactElement => {
+const FormItem = ({getFormItem}: IProps): ReactElement => {
   // use states
   const [itemName, setItemName] = React.useState('');
   const [formItemData, setFormItemData] = React.useState('');
@@ -42,6 +44,7 @@ const FormItem = ({}: IProps): ReactElement => {
 
   React.useEffect(() => {
     setFormItemData('[' + formItems + ']');
+    getFormItem('[' + formItems + ']');
     handleReset();
   }, [formItems]);
 

@@ -1,6 +1,6 @@
 export const API = 'http://localhost:8000/';
 
-export const branch = [
+export const BRANCH = [
   {
     model: 'branch.branch',
     fields: {

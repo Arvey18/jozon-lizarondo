@@ -2,8 +2,6 @@ import {API} from '../constant';
 import {SHOW_PROGRESS, PROGRESS_VALUE} from '../actions/api-call-progress';
 import axios from 'axios';
 
-import {branch} from '../constant';
-
 export const GET_REFERENCE_FORMS = () => (dispatch: any) => {
   dispatch(SHOW_PROGRESS(true));
   const token = localStorage.getItem('token');
@@ -94,11 +92,17 @@ export const DELETE_REFERENCE_FORM = (id: string) => (dispatch: any) => {
     });
 };
 
-export const ADD_REFERENCE_FORM = (fname: string, description: string) => (
-  dispatch: any
-) => {
+export const ADD_REFERENCE_FORM = (
+  fname: string,
+  description: string,
+  initial: string,
+  department: string,
+  formItem: any
+) => (dispatch: any) => {
   dispatch(SHOW_PROGRESS(true));
   const token = localStorage.getItem('token');
+  const data = JSON.parse(formItem);
+  console.log(data);
   return axios({
     method: 'post',
     url: '/api/form/',
@@ -110,6 +114,9 @@ export const ADD_REFERENCE_FORM = (fname: string, description: string) => (
     data: {
       name: fname,
       description: description,
+      initial: initial,
+      department: department,
+      form_items: JSON.stringify(data),
     },
     onUploadProgress: function(progressEvent) {
       var percentCompleted = Math.round(

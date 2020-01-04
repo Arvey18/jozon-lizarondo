@@ -1,6 +1,9 @@
 import React, {ReactElement} from 'react';
 import {connect} from 'react-redux';
-import {GET_MATERIALS, DELETE_MATERIAL} from '../../actions/materials';
+import {
+  GET_REFERENCE_FORMS,
+  DELETE_REFERENCE_FORM,
+} from '../../actions/reference-form';
 import clsx from 'clsx';
 
 // MUI
@@ -22,12 +25,13 @@ import AddIcon from '@material-ui/icons/Add';
 
 // components
 import DeleteModal from '../../components/delete-modal';
-import MaterialModal from './form-modal';
+import FormModal from './form-modal';
 
 // variables
 interface Column {
   id: string;
   name: string;
+  minWidth?: number;
 }
 
 const themeFloatingBtn = createMuiTheme({
@@ -42,26 +46,32 @@ const columns: Column[] = [
   {
     id: 'id',
     name: 'ID',
+    minWidth: 170,
   },
   {
     id: 'name',
     name: 'Name',
+    minWidth: 170,
   },
   {
     id: 'description',
     name: 'Description',
+    minWidth: 220,
   },
   {
     id: 'department',
     name: 'Department',
+    minWidth: 170,
   },
   {
     id: 'initial',
     name: 'Initial',
+    minWidth: 100,
   },
   {
     id: 'items',
     name: 'Items',
+    minWidth: 0,
   },
 ];
 
@@ -81,11 +91,11 @@ const DashboardReferenceForm = (props: any): ReactElement => {
   // states
   const [page, setPage] = React.useState(0);
   const [openDeleteModal, setOpenDeleteModal] = React.useState(false);
-  const [openMaterialModal, setOpenMaterialModal] = React.useState(false);
-  const [editMaterialModal, setEditMaterialModal] = React.useState(false);
-  const [dataMaterial, setDataMaterial] = React.useState('');
+  const [openReferenceModal, setOpenReferenceModal] = React.useState(false);
+  const [editReferenceModal, setEditReferenceModal] = React.useState(false);
+  const [dataReference, setDataReference] = React.useState('');
   const [dataRow, setDataRow] = React.useState([]);
-  const [materialID, setMaterialID] = React.useState('');
+  const [referenceID, setReferenceID] = React.useState('');
 
   // use effects
   React.useEffect(() => {
@@ -95,7 +105,7 @@ const DashboardReferenceForm = (props: any): ReactElement => {
   });
 
   React.useEffect(() => {
-    const dataMat = JSON.parse(dataMaterial || '{}');
+    const dataRef = JSON.parse(dataReference || '{}');
     const rows: any = [];
     const createData = (
       id: string,
@@ -107,26 +117,29 @@ const DashboardReferenceForm = (props: any): ReactElement => {
     ): Data => {
       return {id, name, description, department, initial, items};
     };
-    if (dataMat.length > 0) {
-      // dataMat.map((value: any, key: any) => {
-      //   rows.push(
-      //     createData(
-      //       value.id,
-      //       value.name,
-      //       value.description,
-      //       value.quantity,
-      //       value.charging_quantity,
-      //       value.price
-      //     )
-      //   );
-      // });
+    if (dataRef.length > 0) {
+      dataRef.map((value: any, key: any) => {
+        rows.push(
+          createData(
+            value.id,
+            value.name,
+            value.description,
+            value.department.name,
+            value.initial,
+            value.form_items
+          )
+        );
+      });
     }
     setDataRow(rows);
-  }, [dataMaterial]);
+  }, [dataReference]);
 
   const handleGetData = () => {
-    props.getMaterials().then((result: any) => {
-      setDataMaterial(JSON.stringify(result.data));
+    props.getReferenceForms().then((result: any) => {
+      console.log(result);
+      if (result.statusText === 'OK') {
+        setDataReference(JSON.stringify(result.data));
+      }
     });
   };
 
@@ -141,11 +154,11 @@ const DashboardReferenceForm = (props: any): ReactElement => {
     matID?: string
   ) => {
     if (matID !== undefined) {
-      setMaterialID(matID);
+      setReferenceID(matID);
     }
 
     if (removeData) {
-      props.deleteMaterial(materialID).then((result: any) => {
+      props.deleteReferenceForm(referenceID).then((result: any) => {
         if (result.statusText === 'No Content') {
           setOpenDeleteModal(status);
         }
@@ -155,16 +168,16 @@ const DashboardReferenceForm = (props: any): ReactElement => {
     }
   };
 
-  const handleShowMaterialModal = (
+  const handleShowReferenceModal = (
     show: boolean,
     edit: boolean,
     matID?: string
   ) => {
     if (matID !== undefined) {
-      setMaterialID(matID);
+      setReferenceID(matID);
     }
-    setOpenMaterialModal(show);
-    setEditMaterialModal(edit);
+    setOpenReferenceModal(show);
+    setEditReferenceModal(edit);
   };
 
   return (
@@ -175,11 +188,11 @@ const DashboardReferenceForm = (props: any): ReactElement => {
           handleDeleteModal(status, removeData)
         }
       />
-      <MaterialModal
-        show={openMaterialModal}
-        edit={editMaterialModal}
-        id={materialID}
-        returnStatus={(show, edit) => handleShowMaterialModal(show, edit)}
+      <FormModal
+        show={openReferenceModal}
+        edit={editReferenceModal}
+        id={referenceID}
+        returnStatus={(show, edit) => handleShowReferenceModal(show, edit)}
       />
       <Grid className={classes.gridHeader} container alignItems="center">
         <div>
@@ -188,7 +201,7 @@ const DashboardReferenceForm = (props: any): ReactElement => {
         <div className={classes.addButton}>
           <ThemeProvider theme={themeFloatingBtn}>
             <Fab
-              onClick={() => handleShowMaterialModal(true, false)}
+              onClick={() => handleShowReferenceModal(true, false)}
               color="primary"
               aria-label="Add User"
               className={classes.fab}
@@ -211,6 +224,7 @@ const DashboardReferenceForm = (props: any): ReactElement => {
                         classes.tableHeader,
                         column.id === 'id' ? 'headerId' : ''
                       )}
+                      style={{minWidth: column.minWidth}}
                     >
                       {column.name}
                     </TableCell>
@@ -219,6 +233,7 @@ const DashboardReferenceForm = (props: any): ReactElement => {
                     className={classes.tableHeader}
                     key={3}
                     align="right"
+                    style={{minWidth: 180}}
                   >
                     Actions
                   </TableCell>
@@ -247,7 +262,7 @@ const DashboardReferenceForm = (props: any): ReactElement => {
                           <div>
                             <Button
                               onClick={() =>
-                                handleShowMaterialModal(true, true, row['id'])
+                                handleShowReferenceModal(true, true, row['id'])
                               }
                               className={classes.actionButtonEdit}
                             >
@@ -293,8 +308,8 @@ const DashboardReferenceForm = (props: any): ReactElement => {
 const stateToProps = () => ({});
 
 const actionsToProps = (dispatch: any) => ({
-  getMaterials: () => dispatch(GET_MATERIALS()),
-  deleteMaterial: (id: string) => dispatch(DELETE_MATERIAL(id)),
+  getReferenceForms: () => dispatch(GET_REFERENCE_FORMS()),
+  deleteReferenceForm: (id: string) => dispatch(DELETE_REFERENCE_FORM(id)),
 });
 
 export default connect(stateToProps, actionsToProps)(DashboardReferenceForm);

@@ -1,8 +1,6 @@
-import {API} from '../constant';
+import {API, BRANCH} from '../constant';
 import {SHOW_PROGRESS, PROGRESS_VALUE} from '../actions/api-call-progress';
 import axios from 'axios';
-
-import {branch} from '../constant';
 
 export const GET_MATERIALS = () => (dispatch: any) => {
   dispatch(SHOW_PROGRESS(true));
@@ -114,7 +112,7 @@ export const ADD_MATERIAL = (
     data: {
       name: mname,
       description: description,
-      branch: branch[1].fields.id,
+      branch: BRANCH[1].fields.id,
       quantity: quantity === undefined || quantity === '' ? 0 : quantity,
       charging_quantity: cq === undefined || cq === '' ? 0 : cq,
       price: price === undefined || price === '' ? 0 : price,
@@ -159,7 +157,7 @@ export const UPDATE_MATERIAL = (
     data: {
       name: mname,
       description: description,
-      branch: branch[1].fields.id,
+      branch: BRANCH[1].fields.id,
       quantity: quantity,
       charging_quantity: cq,
       price: price,
