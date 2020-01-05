@@ -31,3 +31,11 @@ body {
     /* Safari and Chrome */
   }
 }
+
+.MuiTablePagination-root {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.MuiTablePagination-toolbar {
+  min-height: 62px !important;
+}

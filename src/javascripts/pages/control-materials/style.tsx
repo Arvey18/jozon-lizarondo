@@ -45,6 +45,8 @@ export const useStyles = makeStyles((theme: Theme) =>
       color: '#FFF',
     },
     rootTable: {
+      display: 'flex',
+      flexFlow: 'column',
       width: '100%',
       marginTop: 15,
       height: 'calc(100vh - 335px)',

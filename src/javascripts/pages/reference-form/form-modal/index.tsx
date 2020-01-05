@@ -59,7 +59,7 @@ interface IProps {
     department: string,
     formItem: string
   ) => any;
-  getMaterial: (id: string) => any;
+  getReferenceForm: (id: string) => any;
   updateMaterial: (id: string, fname: string, description: string) => any;
   getDepartments: () => any;
 }
@@ -78,7 +78,7 @@ const ReferenceModal = ({
   id,
   returnStatus,
   addReference,
-  getMaterial,
+  getReferenceForm,
   updateMaterial,
   getDepartments,
 }: IProps): ReactElement => {
@@ -114,7 +114,7 @@ const ReferenceModal = ({
 
   React.useEffect(() => {
     if (edit && id !== undefined) {
-      getMaterial(id).then((result: any) => {
+      getReferenceForm(id).then((result: any) => {
         if (result.statusText === 'OK') {
           const data = result.data;
           setFieldState({
@@ -130,7 +130,12 @@ const ReferenceModal = ({
   }, [edit]);
 
   React.useEffect(() => {
-    if (fieldState.fname.length > 0 && fieldState.description.length > 0) {
+    if (
+      fieldState.fname.length > 0 &&
+      fieldState.description.length > 0 &&
+      fieldState.initial.length > 0 &&
+      fieldState.department.length > 0
+    ) {
       setDisableSave(false);
     } else {
       setDisableSave(true);
@@ -252,7 +257,7 @@ const ReferenceModal = ({
               <TextField
                 fullWidth={true}
                 id="initial"
-                label="Initial"
+                label="Initial *"
                 margin="normal"
                 autoComplete="off"
                 type="string"
@@ -268,7 +273,7 @@ const ReferenceModal = ({
                   className={classes.formControlLabel}
                   htmlFor="department-label"
                 >
-                  Department
+                  Department *
                 </InputLabel>
                 <Select
                   labelId="department-label"
@@ -336,7 +341,7 @@ const actionsToProps = (dispatch: any) => ({
     dispatch(
       ADD_REFERENCE_FORM(fname, description, initial, department, formItem)
     ),
-  getMaterial: (id: string) => dispatch(GET_REFERENCE_FORM(id)),
+  getReferenceForm: (id: string) => dispatch(GET_REFERENCE_FORM(id)),
   updateMaterial: (id: string, fname: string, description: string) =>
     dispatch(UPDATE_REFERENCE_FORM(id, fname, description)),
   getDepartments: () => dispatch(GET_DEPARTMENTS()),

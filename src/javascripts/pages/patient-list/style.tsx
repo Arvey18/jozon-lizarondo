@@ -3,6 +3,8 @@ import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 export const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     rootTable: {
+      display: 'flex',
+      flexFlow: 'column',
       width: '100%',
       marginTop: 15,
       height: 'calc(100vh - 335px)',
