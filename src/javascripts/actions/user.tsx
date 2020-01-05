@@ -12,7 +12,7 @@ export const GET_USER_DATA = (user_id: string) => (dispatch: any) => {
       'Content-Type': 'application/json',
     },
     onUploadProgress: function(progressEvent) {
-      var percentCompleted = Math.round(
+      const percentCompleted = Math.round(
         (progressEvent.loaded * 100) / progressEvent.total
       );
       dispatch(PROGRESS_VALUE(percentCompleted));
@@ -40,7 +40,7 @@ export const GET_USERS = () => (dispatch: any) => {
       'Content-Type': 'application/json',
     },
     onUploadProgress: function(progressEvent) {
-      var percentCompleted = Math.round(
+      const percentCompleted = Math.round(
         (progressEvent.loaded * 100) / progressEvent.total
       );
       dispatch(PROGRESS_VALUE(percentCompleted));

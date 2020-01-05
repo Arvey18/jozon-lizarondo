@@ -14,7 +14,7 @@ export const GET_DEPARTMENTS = () => (dispatch: any) => {
       Authorization: 'Bearer ' + token,
     },
     onUploadProgress: function(progressEvent) {
-      var percentCompleted = Math.round(
+      const percentCompleted = Math.round(
         (progressEvent.loaded * 100) / progressEvent.total
       );
       dispatch(PROGRESS_VALUE(percentCompleted));

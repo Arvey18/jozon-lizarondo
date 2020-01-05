@@ -14,7 +14,7 @@ export const GET_REFERENCE_FORMS = () => (dispatch: any) => {
       Authorization: 'Bearer ' + token,
     },
     onUploadProgress: function(progressEvent) {
-      var percentCompleted = Math.round(
+      const percentCompleted = Math.round(
         (progressEvent.loaded * 100) / progressEvent.total
       );
       dispatch(PROGRESS_VALUE(percentCompleted));
@@ -44,7 +44,7 @@ export const GET_REFERENCE_FORM = (id: string) => (dispatch: any) => {
       Authorization: 'Bearer ' + token,
     },
     onUploadProgress: function(progressEvent) {
-      var percentCompleted = Math.round(
+      const percentCompleted = Math.round(
         (progressEvent.loaded * 100) / progressEvent.total
       );
       dispatch(PROGRESS_VALUE(percentCompleted));
@@ -74,7 +74,7 @@ export const DELETE_REFERENCE_FORM = (id: string) => (dispatch: any) => {
       Authorization: 'Bearer ' + token,
     },
     onUploadProgress: function(progressEvent) {
-      var percentCompleted = Math.round(
+      const percentCompleted = Math.round(
         (progressEvent.loaded * 100) / progressEvent.total
       );
       dispatch(PROGRESS_VALUE(percentCompleted));
@@ -119,7 +119,7 @@ export const ADD_REFERENCE_FORM = (
       form_items: JSON.stringify(data),
     },
     onUploadProgress: function(progressEvent) {
-      var percentCompleted = Math.round(
+      const percentCompleted = Math.round(
         (progressEvent.loaded * 100) / progressEvent.total
       );
       dispatch(PROGRESS_VALUE(percentCompleted));
@@ -157,7 +157,7 @@ export const UPDATE_REFERENCE_FORM = (
       description: description,
     },
     onUploadProgress: function(progressEvent) {
-      var percentCompleted = Math.round(
+      const percentCompleted = Math.round(
         (progressEvent.loaded * 100) / progressEvent.total
       );
       dispatch(PROGRESS_VALUE(percentCompleted));

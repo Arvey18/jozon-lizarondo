@@ -14,7 +14,7 @@ export const GET_MATERIALS = () => (dispatch: any) => {
       Authorization: 'Bearer ' + token,
     },
     onUploadProgress: function(progressEvent) {
-      var percentCompleted = Math.round(
+      const percentCompleted = Math.round(
         (progressEvent.loaded * 100) / progressEvent.total
       );
       dispatch(PROGRESS_VALUE(percentCompleted));
@@ -44,7 +44,7 @@ export const GET_MATERIAL = (id: string) => (dispatch: any) => {
       Authorization: 'Bearer ' + token,
     },
     onUploadProgress: function(progressEvent) {
-      var percentCompleted = Math.round(
+      const percentCompleted = Math.round(
         (progressEvent.loaded * 100) / progressEvent.total
       );
       dispatch(PROGRESS_VALUE(percentCompleted));
@@ -74,7 +74,7 @@ export const DELETE_MATERIAL = (id: string) => (dispatch: any) => {
       Authorization: 'Bearer ' + token,
     },
     onUploadProgress: function(progressEvent) {
-      var percentCompleted = Math.round(
+      const percentCompleted = Math.round(
         (progressEvent.loaded * 100) / progressEvent.total
       );
       dispatch(PROGRESS_VALUE(percentCompleted));
@@ -118,7 +118,7 @@ export const ADD_MATERIAL = (
       price: price === undefined || price === '' ? 0 : price,
     },
     onUploadProgress: function(progressEvent) {
-      var percentCompleted = Math.round(
+      const percentCompleted = Math.round(
         (progressEvent.loaded * 100) / progressEvent.total
       );
       dispatch(PROGRESS_VALUE(percentCompleted));
@@ -163,7 +163,7 @@ export const UPDATE_MATERIAL = (
       price: price,
     },
     onUploadProgress: function(progressEvent) {
-      var percentCompleted = Math.round(
+      const percentCompleted = Math.round(
         (progressEvent.loaded * 100) / progressEvent.total
       );
       dispatch(PROGRESS_VALUE(percentCompleted));

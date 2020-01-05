@@ -50,8 +50,9 @@ export const useStyles = makeStyles((theme: Theme) =>
       height: 'calc(100vh - 335px)',
     },
     tableWrapper: {
-      maxHeight: 540,
       overflow: 'auto',
+      maxHeight: '540px',
+      height: 'calc(100% - 52px)',
       msOverflowStyle: 'none',
       scrollbarWidth: 'none',
       '&::-webkit-scrollbar': {
