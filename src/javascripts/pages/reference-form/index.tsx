@@ -1,4 +1,4 @@
-import React, {ReactElement} from 'react';
+import React, {ReactElement, MouseEvent} from 'react';
 import {connect} from 'react-redux';
 import {
   GET_REFERENCE_FORMS,
@@ -22,6 +22,7 @@ import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
 // components
 import DeleteModal from '../../components/delete-modal';
@@ -68,11 +69,6 @@ const columns: Column[] = [
     name: 'Initial',
     minWidth: 100,
   },
-  {
-    id: 'items',
-    name: 'Items',
-    minWidth: 0,
-  },
 ];
 
 interface Data {
@@ -81,7 +77,7 @@ interface Data {
   description: string;
   department: string;
   initial: string;
-  items: string;
+  items: any;
 }
 
 const DashboardReferenceForm = (props: any): ReactElement => {
@@ -113,7 +109,7 @@ const DashboardReferenceForm = (props: any): ReactElement => {
       description: string,
       department: string,
       initial: string,
-      items: string
+      items: any
     ): Data => {
       return {id, name, description, department, initial, items};
     };
@@ -180,6 +176,28 @@ const DashboardReferenceForm = (props: any): ReactElement => {
     setEditReferenceModal(edit);
   };
 
+  const handleShowDetails = (event: MouseEvent) => {
+    if (event && event.currentTarget) {
+      // console.log(event.currentTarget.getAttribute('data-formid'));
+      const id = event.currentTarget.getAttribute('data-formid');
+      const formId = 'form-item-' + id;
+      const elements = document.getElementsByClassName(formId);
+      // console.log(element, formId);
+      if (elements) {
+        [].forEach.call(elements, (el: any | []) => {
+          if (el.classList.contains('active')) {
+            event.currentTarget.classList.remove('active');
+            el.classList.remove('active');
+          } else {
+            el.classList.add('active');
+            event.currentTarget.classList.add('active');
+          }
+        });
+      }
+    }
+    // const id = event.target.
+  };
+
   return (
     <div id="jlDashboardSettingsUserManagement" className={classes.root}>
       <DeleteModal
@@ -239,12 +257,15 @@ const DashboardReferenceForm = (props: any): ReactElement => {
                   </TableCell>
                 </TableRow>
               </TableHead>
-              <TableBody>
-                {dataRow
-                  .slice(page * 15, page * 15 + 15)
-                  .map((row: any, key: any) => {
-                    return (
-                      <TableRow hover role="checkbox" tabIndex={-1} key={key}>
+
+              {dataRow
+                .slice(page * 15, page * 15 + 15)
+                .map((row: any, key: any) => {
+                  const items = JSON.parse(row['items'] || '[]');
+                  // console.log(items, row['items'], row);
+                  return (
+                    <TableBody key={key}>
+                      <TableRow hover role="checkbox" tabIndex={-1}>
                         {columns.map((column: any, key: any) => {
                           const value: any = row[column.id];
                           return (
@@ -254,6 +275,19 @@ const DashboardReferenceForm = (props: any): ReactElement => {
                               )}
                               key={column.id}
                             >
+                              {column.id === 'name' ? (
+                                <Fab
+                                  onClick={(event: MouseEvent) =>
+                                    handleShowDetails(event)
+                                  }
+                                  data-formid={row['id']}
+                                  color="primary"
+                                  aria-label="Show Details"
+                                  className={classes.fabChev}
+                                >
+                                  <ChevronRightIcon />
+                                </Fab>
+                              ) : null}
                               {value}
                             </TableCell>
                           );
@@ -261,7 +295,7 @@ const DashboardReferenceForm = (props: any): ReactElement => {
                         <TableCell align="right" key={key + '-action'}>
                           <div>
                             <Button
-                              onClick={() =>
+                              onClick={(event: any) =>
                                 handleShowReferenceModal(true, true, row['id'])
                               }
                               className={classes.actionButtonEdit}
@@ -279,9 +313,69 @@ const DashboardReferenceForm = (props: any): ReactElement => {
                           </div>
                         </TableCell>
                       </TableRow>
-                    );
-                  })}
-              </TableBody>
+
+                      {items.length > 0
+                        ? items.map((value: any, key: any) => {
+                            return (
+                              <TableRow
+                                className={clsx(
+                                  classes.formItemRow,
+                                  'form-item-' + row['id']
+                                )}
+                                key={key}
+                              >
+                                <TableCell colSpan={5}>
+                                  <div className={classes.formItemDataClasses}>
+                                    <div className={classes.formItemDataList}>
+                                      <div
+                                        className={clsx(
+                                          classes.itemTitle,
+                                          classes.flexOne
+                                        )}
+                                      >
+                                        Item Name: {value.name}
+                                      </div>
+                                      <div
+                                        className={clsx(
+                                          classes.itemValues,
+                                          classes.flexOne
+                                        )}
+                                      >
+                                        <div className={classes.valuesTitle}>
+                                          Values
+                                        </div>
+                                        <div className={classes.valuesItemCon}>
+                                          {value.normalValues.length > 0
+                                            ? value.normalValues.map(
+                                                (nmValue: any, nmKey: any) => {
+                                                  return (
+                                                    <div
+                                                      className={
+                                                        classes.valuesContent
+                                                      }
+                                                      key={nmKey}
+                                                    >
+                                                      Gender: {nmValue.gender}
+                                                      <br />
+                                                      <br />
+                                                      Value: {nmValue.value}
+                                                    </div>
+                                                  );
+                                                }
+                                              )
+                                            : null}
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </TableCell>
+                              </TableRow>
+                            );
+                          })
+                        : null}
+                    </TableBody>
+                  );
+                })}
             </Table>
           </div>
           <TablePagination

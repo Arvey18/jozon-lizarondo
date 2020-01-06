@@ -38,6 +38,74 @@ export const useStyles = makeStyles((theme: Theme) =>
         backgroundColor: '#e24135',
       },
     },
+    formItemDataClasses: {
+      width: '100%',
+      display: 'inline-block',
+    },
+    formItemDataList: {
+      display: 'flex',
+      flexFlow: 'row wrap',
+    },
+    formItemRow: {
+      border: 'none',
+      display: 'none',
+      '&.active': {
+        display: 'table-row',
+      },
+    },
+    fabChev: {
+      width: '36px',
+      height: '36px',
+      marginRight: '10px',
+      color: '#000',
+      boxShadow: 'none',
+      background: '#FFF',
+      '&:hover': {
+        color: '#FFF',
+      },
+      '&.active>span': {
+        transform: 'rotate(90deg)',
+      },
+      '&.active': {
+        background: '#394a6d',
+        color: '#FFF',
+      },
+    },
+    itemTitle: {
+      paddingLeft: '45px',
+      fontWeight: 700,
+    },
+    valuesTitle: {
+      fontWeight: 700,
+      marginBottom: '20px',
+    },
+    valuesItemCon: {
+      overflowY: 'auto',
+      msOverflowStyle: 'none',
+      scrollbarWidth: 'none',
+      '&::-webkit-scrollbar': {
+        display: 'none',
+      },
+    },
+    valuesContent: {
+      paddingBottom: '30px',
+      paddingTop: '30px',
+      borderBottom: '1px solid rgba(0, 0, 0, 0.05)',
+      '&:last-child': {
+        border: 'none',
+      },
+      '&:first-child': {
+        paddingTop: '0px',
+      },
+    },
+    itemValues: {},
+    tableRowDiv: {
+      color: 'inherit',
+      display: 'table-row',
+      outline: 0,
+      verticalAlign: 'middle',
+      width: '100%',
+    },
     tableHeader: {
       backgroundColor: '#394a6d',
       fontSize: '12px',
